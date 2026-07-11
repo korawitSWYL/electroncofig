@@ -1,0 +1,6 @@
+{
+  "name": "แบบจำลองออร์บิทัลอิเล็กตรอน 3 มิติ",
+  "description": "แบบจำลอง 3 มิติแอนิเมชันสมจริงเพื่อการศึกษาและเรียนรู้รูปทรงกลุ่มหมอกออร์บิทัลและการกระจายตัวของอิเล็กตรอน",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

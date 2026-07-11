@@ -1,0 +1,1210 @@
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { 
+  Layers, 
+  Info, 
+  Sparkles, 
+  Minus, 
+  Plus, 
+  RotateCcw, 
+  CheckCircle, 
+  XCircle, 
+  Compass, 
+  HelpCircle, 
+  ArrowRight,
+  BookOpen,
+  LayoutGrid
+} from 'lucide-react';
+
+// Define elements from Z=1 to Z=36 for the mini periodic table
+export interface PeriodicElement {
+  z: number;
+  symbol: string;
+  name: string;
+  period: number;
+  group: number;
+  block: 's' | 'p' | 'd';
+  config: string;
+  valence: string;
+  groupLabel: string;
+  isException?: boolean;
+}
+
+const PERIODIC_ELEMENTS: PeriodicElement[] = [
+  // Period 1
+  { z: 1, symbol: 'H', name: 'Hydrogen (ไฮโดรเจน)', period: 1, group: 1, block: 's', config: '1s¹', valence: '1s¹', groupLabel: 'IA (หมู่ 1)' },
+  { z: 2, symbol: 'He', name: 'Helium (ฮีเลียม)', period: 1, group: 18, block: 's', config: '1s²', valence: '1s²', groupLabel: 'VIIIA (หมู่ 18)' },
+  // Period 2
+  { z: 3, symbol: 'Li', name: 'Lithium (ลิเทียม)', period: 2, group: 1, block: 's', config: '1s² 2s¹', valence: '2s¹', groupLabel: 'IA (หมู่ 1)' },
+  { z: 4, symbol: 'Be', name: 'Beryllium (เบริลเลียม)', period: 2, group: 2, block: 's', config: '1s² 2s²', valence: '2s²', groupLabel: 'IIA (หมู่ 2)' },
+  { z: 5, symbol: 'B', name: 'Boron (โบรอน)', period: 2, group: 13, block: 'p', config: '1s² 2s² 2p¹', valence: '2s² 2p¹', groupLabel: 'IIIA (หมู่ 13)' },
+  { z: 6, symbol: 'C', name: 'Carbon (คาร์บอน)', period: 2, group: 14, block: 'p', config: '1s² 2s² 2p²', valence: '2s² 2p²', groupLabel: 'IVA (หมู่ 14)' },
+  { z: 7, symbol: 'N', name: 'Nitrogen (ไนโตรเจน)', period: 2, group: 15, block: 'p', config: '1s² 2s² 2p³', valence: '2s² 2p³', groupLabel: 'VA (หมู่ 15)' },
+  { z: 8, symbol: 'O', name: 'Oxygen (ออกซิเจน)', period: 2, group: 16, block: 'p', config: '1s² 2s² 2p⁴', valence: '2s² 2p⁴', groupLabel: 'VIA (หมู่ 16)' },
+  { z: 9, symbol: 'F', name: 'Fluorine (ฟลูออรีน)', period: 2, group: 17, block: 'p', config: '1s² 2s² 2p⁵', valence: '2s² 2p⁵', groupLabel: 'VIIA (หมู่ 17)' },
+  { z: 10, symbol: 'Ne', name: 'Neon (นีออน)', period: 2, group: 18, block: 'p', config: '1s² 2s² 2p⁶', valence: '2s² 2p⁶', groupLabel: 'VIIIA (หมู่ 18)' },
+  // Period 3
+  { z: 11, symbol: 'Na', name: 'Sodium (โซเดียม)', period: 3, group: 1, block: 's', config: '[Ne] 3s¹', valence: '3s¹', groupLabel: 'IA (หมู่ 1)' },
+  { z: 12, symbol: 'Mg', name: 'Magnesium (แมกนีเซียม)', period: 3, group: 2, block: 's', config: '[Ne] 3s²', valence: '3s²', groupLabel: 'IIA (หมู่ 2)' },
+  { z: 13, symbol: 'Al', name: 'Aluminium (อะลูมิเนียม)', period: 3, group: 13, block: 'p', config: '[Ne] 3s² 3p¹', valence: '3s² 3p¹', groupLabel: 'IIIA (หมู่ 13)' },
+  { z: 14, symbol: 'Si', name: 'Silicon (ซิลิคอน)', period: 3, group: 14, block: 'p', config: '[Ne] 3s² 3p²', valence: '3s² 3p²', groupLabel: 'IVA (หมู่ 14)' },
+  { z: 15, symbol: 'P', name: 'Phosphorus (ฟอสฟอรัส)', period: 3, group: 15, block: 'p', config: '[Ne] 3s² 3p³', valence: '3s² 3p³', groupLabel: 'VA (หมู่ 15)' },
+  { z: 16, symbol: 'S', name: 'Sulfur (กำมะถัน)', period: 3, group: 16, block: 'p', config: '[Ne] 3s² 3p⁴', valence: '3s² 3p⁴', groupLabel: 'VIA (หมู่ 16)' },
+  { z: 17, symbol: 'Cl', name: 'Chlorine (คลอรีน)', period: 3, group: 17, block: 'p', config: '[Ne] 3s² 3p⁵', valence: '3s² 3p⁵', groupLabel: 'VIIA (หมู่ 17)' },
+  { z: 18, symbol: 'Ar', name: 'Argon (อาร์กอน)', period: 3, group: 18, block: 'p', config: '[Ne] 3s² 3p⁶', valence: '3s² 3p⁶', groupLabel: 'VIIIA (หมู่ 18)' },
+  // Period 4
+  { z: 19, symbol: 'K', name: 'Potassium (โพแทสเซียม)', period: 4, group: 1, block: 's', config: '[Ar] 4s¹', valence: '4s¹', groupLabel: 'IA (หมู่ 1)' },
+  { z: 20, symbol: 'Ca', name: 'Calcium (แคลเซียม)', period: 4, group: 2, block: 's', config: '[Ar] 4s²', valence: '4s²', groupLabel: 'IIA (หมู่ 2)' },
+  { z: 21, symbol: 'Sc', name: 'Scandium (สแกนเดียม)', period: 4, group: 3, block: 'd', config: '[Ar] 4s² 3d¹', valence: '4s² 3d¹', groupLabel: 'IIIB (หมู่ 3)' },
+  { z: 22, symbol: 'Ti', name: 'Titanium (ไทเทเนียม)', period: 4, group: 4, block: 'd', config: '[Ar] 4s² 3d²', valence: '4s² 3d²', groupLabel: 'IVB (หมู่ 4)' },
+  { z: 23, symbol: 'V', name: 'Vanadium (วานาเดียม)', period: 4, group: 5, block: 'd', config: '[Ar] 4s² 3d³', valence: '4s² 3d³', groupLabel: 'VB (หมู่ 5)' },
+  { z: 24, symbol: 'Cr', name: 'Chromium (โครเมียม)', period: 4, group: 6, block: 'd', config: '[Ar] 4s¹ 3d⁵', valence: '4s¹ 3d⁵', groupLabel: 'VIB (หมู่ 6)', isException: true },
+  { z: 25, symbol: 'Mn', name: 'Manganese (แมงกานีส)', period: 4, group: 7, block: 'd', config: '[Ar] 4s² 3d⁵', valence: '4s² 3d⁵', groupLabel: 'VIIB (หมู่ 7)' },
+  { z: 26, symbol: 'Fe', name: 'Iron (เหล็ก)', period: 4, group: 8, block: 'd', config: '[Ar] 4s² 3d⁶', valence: '4s² 3d⁶', groupLabel: 'VIIIB (หมู่ 8)' },
+  { z: 27, symbol: 'Co', name: 'Cobalt (โคบอลต์)', period: 4, group: 9, block: 'd', config: '[Ar] 4s² 3d⁷', valence: '4s² 3d⁷', groupLabel: 'VIIIB (หมู่ 9)' },
+  { z: 28, symbol: 'Ni', name: 'Nickel (นิกเกิล)', period: 4, group: 10, block: 'd', config: '[Ar] 4s² 3d⁸', valence: '4s² 3d⁸', groupLabel: 'VIIIB (หมู่ 10)' },
+  { z: 29, symbol: 'Cu', name: 'Copper (ทองแดง)', period: 4, group: 11, block: 'd', config: '[Ar] 4s¹ 3d¹⁰', valence: '4s¹ 3d¹⁰', groupLabel: 'IB (หมู่ 11)', isException: true },
+  { z: 30, symbol: 'Zn', name: 'Zinc (สังกะสี)', period: 4, group: 12, block: 'd', config: '[Ar] 4s² 3d¹⁰', valence: '4s² 3d¹⁰', groupLabel: 'IIB (หมู่ 12)' },
+  { z: 31, symbol: 'Ga', name: 'Gallium (แกลเลียม)', period: 4, group: 13, block: 'p', config: '[Ar] 4s² 3d¹⁰ 4p¹', valence: '4s² 4p¹', groupLabel: 'IIIA (หมู่ 13)' },
+  { z: 32, symbol: 'Ge', name: 'Germanium (เจอร์เมเนียม)', period: 4, group: 14, block: 'p', config: '[Ar] 4s² 3d¹⁰ 4p²', valence: '4s² 4p²', groupLabel: 'IVA (หมู่ 14)' },
+  { z: 33, symbol: 'As', name: 'Arsenic (สารหนู)', period: 4, group: 15, block: 'p', config: '[Ar] 4s² 3d¹⁰ 4p³', valence: '4s² 4p³', groupLabel: 'VA (หมู่ 15)' },
+  { z: 34, symbol: 'Se', name: 'Selenium (ซีลีเนียม)', period: 4, group: 16, block: 'p', config: '[Ar] 4s² 3d¹⁰ 4p⁴', valence: '4s² 4p⁴', groupLabel: 'VIA (หมู่ 16)' },
+  { z: 35, symbol: 'Br', name: 'Bromine (โบรมีน)', period: 4, group: 17, block: 'p', config: '[Ar] 4s² 3d¹⁰ 4p⁵', valence: '4s² 4p⁵', groupLabel: 'VIIA (หมู่ 17)' },
+  { z: 36, symbol: 'Kr', name: 'Krypton (คริปตอน)', period: 4, group: 18, block: 'p', config: '[Ar] 4s² 3d¹⁰ 4p⁶', valence: '4s² 4p⁶', groupLabel: 'VIIIA (หมู่ 18)' },
+];
+
+export default function ApplicationsViewer() {
+  // --- APPLICATION SUB-TABS ---
+  const [subTab, setSubTab] = useState<'symbol' | 'unpaired' | 'periodic'>('symbol');
+
+  // --- SUB-TAB 1: SYMBOL NOTATION STATES ---
+  const [symN, setSymN] = useState<number>(2);
+  const [symSub, setSymSub] = useState<'s' | 'p' | 'd' | 'f'>('p');
+  const [symElectrons, setSymElectrons] = useState<number>(5);
+  const [activeHoverPart, setActiveHoverPart] = useState<'n' | 'l' | 'e' | null>(null);
+
+  // Maximum electron capacity depending on subshell type
+  const getCapacity = (sub: 's' | 'p' | 'd' | 'f') => {
+    if (sub === 's') return 2;
+    if (sub === 'p') return 6;
+    if (sub === 'd') return 10;
+    return 14;
+  };
+
+  // Keep electrons within capacity when subshell type changes
+  useEffect(() => {
+    const maxCap = getCapacity(symSub);
+    if (symElectrons > maxCap) {
+      setSymElectrons(maxCap);
+    }
+  }, [symSub]);
+
+  // Adjust subshells allowed by principal energy level N
+  useEffect(() => {
+    if (symN === 1 && symSub !== 's') {
+      setSymSub('s');
+    } else if (symN === 2 && symSub !== 's' && symSub !== 'p') {
+      setSymSub('p');
+    } else if (symN === 3 && symSub === 'f') {
+      setSymSub('d');
+    }
+  }, [symN]);
+
+  // --- SUB-TAB 2: UNPAIRED ELECTRON STATES ---
+  const [unpSub, setUnpSub] = useState<'s' | 'p' | 'd' | 'f'>('d');
+  const [unpElectrons, setUnpElectrons] = useState<number>(7);
+  const [quizScore, setQuizScore] = useState(0);
+
+  // Unpaired sub-tab electron safety
+  useEffect(() => {
+    const maxCap = getCapacity(unpSub);
+    if (unpElectrons > maxCap) {
+      setUnpElectrons(maxCap);
+    }
+  }, [unpSub]);
+
+  // Hund's rule orbit arrow calculation
+  const getOrbitalFillings = (sub: 's' | 'p' | 'd' | 'f', eCount: number) => {
+    const boxCount = sub === 's' ? 1 : sub === 'p' ? 3 : sub === 'd' ? 5 : 7;
+    
+    // Each orbital starts empty
+    const boxes: Array<{ up: boolean; down: boolean }> = Array.from({ length: boxCount }, () => ({
+      up: false,
+      down: false,
+    }));
+
+    // Step 1: Fill spin-up (Hund's Rule)
+    for (let i = 0; i < Math.min(eCount, boxCount); i++) {
+      boxes[i].up = true;
+    }
+
+    // Step 2: Pair with spin-down (Pauli Exclusion Principle)
+    if (eCount > boxCount) {
+      const remaining = eCount - boxCount;
+      for (let i = 0; i < Math.min(remaining, boxCount); i++) {
+        boxes[i].down = true;
+      }
+    }
+
+    // Count unpaired & paired electrons
+    let unpaired = 0;
+    let pairedPairs = 0;
+    boxes.forEach(b => {
+      if (b.up && !b.down) unpaired++;
+      if (b.up && b.down) pairedPairs++;
+    });
+
+    return { boxes, unpaired, pairedCount: pairedPairs * 2 };
+  };
+
+  const { boxes: orbitBoxes, unpaired: unpairedCount, pairedCount } = getOrbitalFillings(unpSub, unpElectrons);
+
+  // --- SUB-TAB 3: PERIODIC TABLE STATES ---
+  const [selectedZ, setSelectedZ] = useState<number>(8); // Oxygen by default
+  const activeElement = PERIODIC_ELEMENTS.find(el => el.z === selectedZ) || PERIODIC_ELEMENTS[7];
+
+  // --- INTERACTIVE QUIZZES DATA ---
+  const [answeredQuizzes, setAnsweredQuizzes] = useState<Set<string>>(new Set());
+
+  // Quiz 1: Symbol Interpretation
+  const [symQuizIndex, setSymQuizIndex] = useState(0);
+  const [selectedSymAnswer, setSelectedSymAnswer] = useState<number | null>(null);
+  const [isSymAnswerCorrect, setIsSymAnswerCorrect] = useState<boolean | null>(null);
+  const symQuizzes = [
+    {
+      q: 'จากสัญลักษณ์ 3d⁷ ตัวเลข "3" มีความหมายว่าอย่างไร?',
+      options: [
+        'มีอิเล็กตรอน 3 ตัวในระดับพลังงานย่อย d',
+        'ระดับพลังงานหลัก (n) เท่ากับ 3',
+        'มีจำนวนออร์บิทัล 3 ห้อง',
+        'สปินของอิเล็กตรอนชี้ขึ้น 3 ตัว'
+      ],
+      correct: 1,
+      explanation: 'ตัวเลขหน้าสัญลักษณ์ (เช่น 3 ใน 3d) บ่งบอกถึงระดับพลังงานหลัก (n = 3) ที่อิเล็กตรอนอาศัยอยู่'
+    },
+    {
+      q: 'ระดับพลังงานย่อย 4p⁵ สามารถรับอิเล็กตรอนเพิ่มได้อีกกี่ตัว?',
+      options: [
+        '1 ตัว (เนื่องจาก p บรรจุได้สูงสุด 6 ตัว)',
+        '2 ตัว (เนื่องจาก p บรรจุได้สูงสุด 7 ตัว)',
+        '5 ตัว (เนื่องจากมีอิเล็กตรอนเดี่ยว 5 ตัว)',
+        'เต็มแล้ว ไม่สามารถบรรจุเพิ่มได้อีก'
+      ],
+      correct: 0,
+      explanation: 'ระดับพลังงานย่อย p (มี 3 ออร์บิทัล) จุอิเล็กตรอนสูงสุดได้ 6 ตัว สัญลักษณ์ 4p⁵ มีอยู่แล้ว 5 ตัว จึงเหลือที่ว่างอีก 1 ตัวเท่านั้น'
+    },
+    {
+      q: 'สัญลักษณ์ในข้อใดไม่มีทางเกิดขึ้นได้จริงตามหลักควอนตัม?',
+      options: [
+        '2s²',
+        '1p⁶',
+        '3d¹⁰',
+        '4f⁵'
+      ],
+      correct: 1,
+      explanation: 'ในระดับพลังงานหลัก n = 1 จะมีเฉพาะระดับพลังงานย่อย s เท่านั้น (1s) ไม่มี 1p เกิดขึ้นได้ เนื่องจากค่าเลขควอนตัมโมเมนตัมเชิงมุม l ต้องน้อยกว่า n เสมอ (l < n)'
+    }
+  ];
+
+  const handleSymAnswer = (optIndex: number) => {
+    setSelectedSymAnswer(optIndex);
+    const isCorrect = optIndex === symQuizzes[symQuizIndex].correct;
+    setIsSymAnswerCorrect(isCorrect);
+    if (isCorrect) {
+      const quizId = `sym-${symQuizIndex}`;
+      if (!answeredQuizzes.has(quizId)) {
+        setQuizScore(prev => prev + 1);
+        setAnsweredQuizzes(prev => new Set(prev).add(quizId));
+      }
+    }
+  };
+
+  const nextSymQuiz = () => {
+    setSelectedSymAnswer(null);
+    setIsSymAnswerCorrect(null);
+    setSymQuizIndex(prev => (prev + 1) % symQuizzes.length);
+  };
+
+  // Quiz 2: Unpaired Electrons
+  const [unpQuizIndex, setUnpQuizIndex] = useState(0);
+  const [selectedUnpAnswer, setSelectedUnpAnswer] = useState<number | null>(null);
+  const [isUnpAnswerCorrect, setIsUnpAnswerCorrect] = useState<boolean | null>(null);
+  const unpQuizzes = [
+    {
+      q: 'ระดับพลังงานย่อย 3p⁴ มีจำนวนอิเล็กตรอนเดี่ยว (Unpaired Electron) กี่ตัว?',
+      options: ['1 ตัว', '2 ตัว', '3 ตัว', '4 ตัว'],
+      correct: 1,
+      explanation: 'ระดับพลังงานย่อย p มี 3 ออร์บิทัล บรรจุ 4 อิเล็กตรอน: ขั้นแรกใส่เดี่ยวชี้ขึ้น 3 ตัว (↑, ↑, ↑) แล้วอิเล็กตรอนที่ 4 จับคู่แบบชี้ลงตัวแรก (↑↓, ↑, ↑) ส่งผลให้เหลืออิเล็กตรอนเดี่ยว 2 ตัว'
+    },
+    {
+      q: 'ธาตุไนโตรเจน (N, Z=7) มีการจัดเรียงอิเล็กตรอนเป็น 1s² 2s² 2p³ จะมีอิเล็กตรอนเดี่ยวในระดับพลังงานนอกสุดกี่ตัว?',
+      options: ['0 ตัว', '1 ตัว', '3 ตัว', '5 ตัว'],
+      correct: 2,
+      explanation: 'วงนอกสุดคือ 2p³ ออร์บิทัล p มี 3 ห้อง บรรจุ 3 อิเล็กตรอน ทุกห้องจึงได้อิเล็กตรอนเดี่ยว (↑, ↑, ↑) รวมเป็น 3 ตัว'
+    },
+    {
+      q: 'การจัดเรียงข้อใดมีจำนวนอิเล็กตรอนเดี่ยว "มากที่สุด"?',
+      options: [
+        '3d⁵ (ธาตุแมงกานีส Mn)',
+        '3d⁶ (ธาตุเหล็ก Fe)',
+        '3d⁸ (ธาตุนิกเกิล Ni)',
+        '4s² (ธาตุแคลเซียม Ca)'
+      ],
+      correct: 0,
+      explanation: 'ระดับพลังงานย่อย d มี 5 ออร์บิทัล: 3d⁵ บรรจุเดี่ยวทุกห้อง (↑, ↑, ↑, ↑, ↑) มีอิเล็กตรอนเดี่ยว 5 ตัว ส่วน 3d⁶ เริ่มจับคู่จึงเหลือเดี่ยว 4 ตัว และ 4s² บรรจุเต็มไม่มีอิเล็กตรอนเดี่ยวเลย'
+    }
+  ];
+
+  const handleUnpAnswer = (optIndex: number) => {
+    setSelectedUnpAnswer(optIndex);
+    const isCorrect = optIndex === unpQuizzes[unpQuizIndex].correct;
+    setIsUnpAnswerCorrect(isCorrect);
+    if (isCorrect) {
+      const quizId = `unp-${unpQuizIndex}`;
+      if (!answeredQuizzes.has(quizId)) {
+        setQuizScore(prev => prev + 1);
+        setAnsweredQuizzes(prev => new Set(prev).add(quizId));
+      }
+    }
+  };
+
+  const nextUnpQuiz = () => {
+    setSelectedUnpAnswer(null);
+    setIsUnpAnswerCorrect(null);
+    setUnpQuizIndex(prev => (prev + 1) % unpQuizzes.length);
+  };
+
+  // Quiz 3: Periodic Table
+  const [perQuizIndex, setPerQuizIndex] = useState(0);
+  const [selectedPerAnswer, setSelectedPerAnswer] = useState<number | null>(null);
+  const [isPerAnswerCorrect, setIsPerAnswerCorrect] = useState<boolean | null>(null);
+  const perQuizzes = [
+    {
+      q: 'ธาตุที่มีการจัดเรียงวาเลนซ์อิเล็กตรอนลงท้ายด้วย 3s² 3p⁵ จะอยู่ในตำแหน่งใดในตารางธาตุ?',
+      options: [
+        'คาบ 3 หมู่ 5 บล็อก p',
+        'คาบ 3 หมู่ 15 บล็อก p',
+        'คาบ 3 หมู่ 17 (VIIA) บล็อก p',
+        'คาบ 2 หมู่ 17 (VIIA) บล็อก s'
+      ],
+      correct: 2,
+      explanation: 'เลขระดับพลังงานหลักสูงสุดคือ 3 (คาบ 3) มีวาเลนซ์อิเล็กตรอนรวม 7 ตัว จัดเป็นธาตุหมู่ VIIA หรือหมู่ 17 บล็อก p (อโลหะกลุ่มฮาโลเจน)'
+    },
+    {
+      q: 'การที่ธาตุ โครเมียม (Cr, Z=24) จัดเรียงอิเล็กตรอนวงนอกสุดเป็น 4s¹ 3d⁵ ข้อใดอธิบายคาบและหมู่ของมันได้ถูกต้อง?',
+      options: [
+        'คาบ 3 หมู่ 5 (VB)',
+        'คาบ 4 หมู่ 6 (VIB) แทรนซิชัน',
+        'คาบ 4 หมู่ 1 (IA)',
+        'คาบ 4 หมู่ 5 (VB)'
+      ],
+      correct: 1,
+      explanation: 'Cr มีระดับพลังงานสูงสุด n=4 จึงอยู่คาบ 4 และอิเล็กตรอนใน s และ d รวมกัน 6 ตัว ทำให้อยู่หมู่ 6 หรือ VIB ซึ่งเป็นโลหะแทรนซิชันในบล็อก d'
+    },
+    {
+      q: 'ธาตุที่มีการจัดเรียงอิเล็กตรอนเป็น [Ar] 4s² จัดอยู่ใน "บล็อก" ใดและมีสมบัติเป็นประเภทใด?',
+      options: [
+        's-block, โลหะแอลคาไลน์เอิร์ท (แคลเซียม)',
+        'p-block, อโลหะ',
+        'd-block, โลหะแทรนซิชัน',
+        's-block, แก๊สเฉื่อย'
+      ],
+      correct: 0,
+      explanation: '[Ar] 4s² คือแคลเซียม (Ca, Z=20) เนื่องจากอิเล็กตรอนตัวสุดท้ายบรรจุใน s orbital จึงจัดอยู่ใน s-block หมู่ IIA ซึ่งเป็นโลหะแอลคาไลน์เอิร์ท'
+    }
+  ];
+
+  const handlePerAnswer = (optIndex: number) => {
+    setSelectedPerAnswer(optIndex);
+    const isCorrect = optIndex === perQuizzes[perQuizIndex].correct;
+    setIsPerAnswerCorrect(isCorrect);
+    if (isCorrect) {
+      const quizId = `per-${perQuizIndex}`;
+      if (!answeredQuizzes.has(quizId)) {
+        setQuizScore(prev => prev + 1);
+        setAnsweredQuizzes(prev => new Set(prev).add(quizId));
+      }
+    }
+  };
+
+  const nextPerQuiz = () => {
+    setSelectedPerAnswer(null);
+    setIsPerAnswerCorrect(null);
+    setPerQuizIndex(prev => (prev + 1) % perQuizzes.length);
+  };
+
+  // Reset all quizzes score
+  const resetQuizScore = () => {
+    setQuizScore(0);
+    setAnsweredQuizzes(new Set());
+    setSelectedSymAnswer(null);
+    setIsSymAnswerCorrect(null);
+    setSelectedUnpAnswer(null);
+    setIsUnpAnswerCorrect(null);
+    setSelectedPerAnswer(null);
+    setIsPerAnswerCorrect(null);
+  };
+
+  // Helper helper to format superscript numbers
+  const getSuperscript = (num: number) => {
+    const supers = ['⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹', '¹⁰', '¹¹', '¹²', '¹³', '¹⁴'];
+    return supers[num] || num.toString();
+  };
+
+  return (
+    <div id="applications-container" className="flex-1 relative w-full h-full flex flex-col gap-4 min-h-0 overflow-y-auto lg:overflow-hidden">
+      
+      {/* Dynamic Sub-tab Switcher Bar with glow effect */}
+      <div id="app-subtabs-nav" className="shrink-0 flex flex-row p-1 sm:p-1.5 bg-slate-950/85 backdrop-blur border border-white/10 rounded-2xl shadow-lg gap-1.5 overflow-x-auto scrollbar-none">
+        <button
+          id="tab-btn-symbol"
+          type="button"
+          onClick={() => { setSubTab('symbol'); }}
+          className={`flex-1 min-w-[120px] px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer flex items-center justify-center gap-2 ${
+            subTab === 'symbol'
+              ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20 scale-[1.02]'
+              : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+          }`}
+        >
+          <Compass size={16} />
+          <span className="whitespace-nowrap">ถอดรหัสสัญลักษณ์</span>
+        </button>
+        
+        <button
+          id="tab-btn-unpaired"
+          type="button"
+          onClick={() => { setSubTab('unpaired'); }}
+          className={`flex-1 min-w-[120px] px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer flex items-center justify-center gap-2 ${
+            subTab === 'unpaired'
+              ? 'bg-gradient-to-r from-teal-500 to-emerald-600 text-slate-950 shadow-md shadow-emerald-500/10 scale-[1.02]'
+              : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+          }`}
+        >
+          <Layers size={16} />
+          <span className="whitespace-nowrap">นับอิเล็กตรอนเดี่ยว</span>
+        </button>
+        
+        <button
+          id="tab-btn-periodic"
+          type="button"
+          onClick={() => { setSubTab('periodic'); }}
+          className={`flex-1 min-w-[120px] px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all cursor-pointer flex items-center justify-center gap-2 ${
+            subTab === 'periodic'
+              ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 shadow-md shadow-amber-500/10 scale-[1.02]'
+              : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+          }`}
+        >
+          <LayoutGrid size={16} />
+          <span className="whitespace-nowrap">ตำแหน่งธาตุ</span>
+        </button>
+      </div>
+
+      {/* Main Double Panel Content */}
+      <div id="app-panels-wrapper" className="flex-1 flex flex-col lg:flex-row gap-4 min-h-0 overflow-y-auto lg:overflow-hidden pb-4 lg:pb-0">
+        
+        {/* ================= LEFT PLAYGROUND PANEL ================= */}
+        <section 
+          id="app-left-playground" 
+          className="flex-1 min-h-[400px] lg:h-full bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-y-auto scrollbar-thin scrollbar-thumb-slate-800 flex flex-col shrink-0 shadow-2xl p-4 sm:p-6"
+        >
+          
+          <AnimatePresence mode="wait">
+            {/* 1. SYMBOL PLAYGROUND */}
+            {subTab === 'symbol' && (
+              <motion.div
+                key="symbol-play"
+                initial={{ opacity: 0, x: -15 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 15 }}
+                transition={{ duration: 0.2 }}
+                className="flex-1 flex flex-col min-h-full justify-between gap-6"
+              >
+                <div>
+                  <h3 className="text-sm font-bold text-blue-400 flex items-center gap-2 border-b border-white/5 pb-2.5 mb-4">
+                    <Sparkles size={16} /> เครื่องมือวิเคราะห์โครงสร้างสัญลักษณ์ทางเคมี
+                  </h3>
+                  <p className="text-[11px] sm:text-xs text-slate-400 leading-snug">
+                    สัญลักษณ์การจัดเรียงอิเล็กตรอนช่วยย่อข้อมูลควอนตัมให้เข้าใจง่าย โดยประกอบด้วยระดับพลังงานหลัก (n), รูปร่างออร์บิทัล (l) และจำนวนอิเล็กตรอน ลองคลิกแต่ละส่วนเพื่อดูความหมาย!
+                  </p>
+                </div>
+
+                {/* Main Interactive Giant Symbol Display */}
+                <div className="flex-1 flex items-center justify-center py-6 relative">
+                  <div className="absolute inset-0 bg-radial-gradient from-blue-500/5 to-transparent pointer-events-none rounded-full blur-xl" />
+                  
+                  <div className="flex items-baseline font-mono select-none bg-slate-950/60 p-8 rounded-3xl border border-white/5 shadow-2xl relative max-w-sm w-full justify-center gap-1.5 group">
+                    {/* Part n: Principal Quantum Number */}
+                    <div 
+                      onMouseEnter={() => setActiveHoverPart('n')}
+                      onMouseLeave={() => setActiveHoverPart(null)}
+                      onClick={() => setActiveHoverPart('n')}
+                      className={`text-7xl sm:text-8xl font-black transition-all duration-200 cursor-pointer px-2 rounded-2xl relative ${
+                        activeHoverPart === 'n' 
+                          ? 'text-blue-400 scale-105 bg-blue-500/10 shadow-[0_0_20px_rgba(59,130,246,0.2)]' 
+                          : 'text-slate-100 hover:text-blue-300'
+                      }`}
+                    >
+                      {symN}
+                      <span className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 text-[9px] font-sans font-bold text-blue-400 tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                        ระดับหลัก (n)
+                      </span>
+                    </div>
+
+                    {/* Part l: Subshell symbol */}
+                    <div 
+                      onMouseEnter={() => setActiveHoverPart('l')}
+                      onMouseLeave={() => setActiveHoverPart(null)}
+                      onClick={() => setActiveHoverPart('l')}
+                      className={`text-6xl sm:text-7xl font-bold italic transition-all duration-200 cursor-pointer px-2 rounded-2xl relative ${
+                        activeHoverPart === 'l' 
+                          ? 'text-indigo-400 scale-105 bg-indigo-500/10 shadow-[0_0_20px_rgba(99,102,241,0.2)]' 
+                          : 'text-slate-300 hover:text-indigo-300'
+                      }`}
+                    >
+                      {symSub}
+                      <span className="absolute -bottom-5 left-1/2 transform -translate-x-1/2 text-[9px] font-sans font-bold text-indigo-400 tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                        ระดับย่อย (l)
+                      </span>
+                    </div>
+
+                    {/* Part e: Electron count */}
+                    <div 
+                      onMouseEnter={() => setActiveHoverPart('e')}
+                      onMouseLeave={() => setActiveHoverPart(null)}
+                      onClick={() => setActiveHoverPart('e')}
+                      className={`text-4xl sm:text-5xl font-extrabold transition-all duration-200 cursor-pointer px-2 py-1 rounded-2xl relative -translate-y-8 ${
+                        activeHoverPart === 'e' 
+                          ? 'text-pink-400 scale-105 bg-pink-500/10 shadow-[0_0_20px_rgba(244,114,182,0.2)]' 
+                          : 'text-slate-200 hover:text-pink-300'
+                      }`}
+                    >
+                      {symElectrons}
+                      <span className="absolute -top-7 left-1/2 transform -translate-x-1/2 text-[9px] font-sans font-bold text-pink-400 tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                        อิเล็กตรอน (e⁻)
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Contextual description based on clicked/hovered part */}
+                <div className="bg-slate-950/60 p-4 rounded-2xl border border-white/5 min-h-[92px] flex items-center justify-center text-center">
+                  {!activeHoverPart ? (
+                    <p className="text-[11px] sm:text-xs text-slate-400 italic">
+                      💡 ทดลองนำเมาส์มาชี้ หรือคลิกแต่ละส่วนประกอบด้านบนเพื่อดูคำอธิบายทางวิชาการและรายละเอียดเชิงลึก
+                    </p>
+                  ) : activeHoverPart === 'n' ? (
+                    <div className="text-left">
+                      <h4 className="text-[11px] font-black text-blue-400 uppercase tracking-wider mb-1">
+                        ระดับพลังงานหลัก (n = {symN})
+                      </h4>
+                      <p className="text-[10px] sm:text-xs text-slate-300 leading-relaxed">
+                        ระบุ <strong className="text-white">ระดับพลังงานหลัก (Shell)</strong> ที่อิเล็กตรอนอยู่ ค่า n ที่เพิ่มขึ้นแสดงถึงขนาดออร์บิทัลที่ใหญ่และมีพลังงานสูงขึ้น
+                      </p>
+                    </div>
+                  ) : activeHoverPart === 'l' ? (
+                    <div className="text-left">
+                      <h4 className="text-[11px] font-black text-indigo-400 uppercase tracking-wider mb-1">
+                        ระดับพลังงานย่อย (l = {symSub})
+                      </h4>
+                      <p className="text-[10px] sm:text-xs text-slate-300 leading-relaxed">
+                        ระบุ <strong className="text-white">รูปร่างออร์บิทัล</strong> <strong className="text-indigo-300">({symSub})</strong> {
+                          symSub === 's' ? 'ทรงกลม มี 1 ออร์บิทัล' :
+                          symSub === 'p' ? 'รูปดัมเบล มี 3 ออร์บิทัล' :
+                          symSub === 'd' ? 'รูปโคลเวอร์ มี 5 ออร์บิทัล' :
+                          'รูปทรงซับซ้อน มี 7 ออร์บิทัล'
+                        } บรรจุได้สูงสุด {getCapacity(symSub)} อิเล็กตรอน
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="text-left">
+                      <h4 className="text-[11px] font-black text-pink-400 uppercase tracking-wider mb-1">
+                        จำนวนอิเล็กตรอน (e⁻ = {symElectrons} ตัว)
+                      </h4>
+                      <p className="text-[10px] sm:text-xs text-slate-300 leading-relaxed">
+                        ปัจจุบันมีอิเล็กตรอน <strong className="text-white">{symElectrons} ตัว</strong> ชนิด {symSub} รับได้สูงสุด <strong className="text-pink-300">{getCapacity(symSub)} ตัว</strong> (มี {getCapacity(symSub)/2} ห้อง ห้องละ 2 ตัวสปินตรงข้ามกัน)
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Sub-tab 1 Controllers */}
+                <div className="grid grid-cols-3 gap-3 bg-slate-950/40 p-3 rounded-2xl border border-white/5 shrink-0">
+                  {/* Selector n */}
+                  <div className="flex flex-col gap-1.5">
+                    <span className="text-[10px] font-black text-slate-400 text-center uppercase tracking-wider">พลังงานหลัก (n)</span>
+                    <div className="flex items-center justify-between bg-slate-950 px-2 py-1 rounded-xl border border-white/5">
+                      <button 
+                        onClick={() => setSymN(prev => Math.max(1, prev - 1))}
+                        disabled={symN <= 1}
+                        className="w-6 h-6 rounded-md bg-slate-800 hover:bg-slate-700 disabled:opacity-30 flex items-center justify-center text-white text-xs cursor-pointer"
+                      >
+                        <Minus size={12} />
+                      </button>
+                      <span className="font-mono font-bold text-sm text-white">{symN}</span>
+                      <button 
+                        onClick={() => setSymN(prev => Math.min(7, prev + 1))}
+                        disabled={symN >= 7}
+                        className="w-6 h-6 rounded-md bg-slate-800 hover:bg-slate-700 disabled:opacity-30 flex items-center justify-center text-white text-xs cursor-pointer"
+                      >
+                        <Plus size={12} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Selector Subshell */}
+                  <div className="flex flex-col gap-1.5">
+                    <span className="text-[10px] font-black text-slate-400 text-center uppercase tracking-wider">ระดับย่อย (l)</span>
+                    <div className="flex items-center justify-around bg-slate-950 p-1 rounded-xl border border-white/5 h-[34px]">
+                      {(['s', 'p', 'd', 'f'] as const).map(sub => {
+                        const isAllowed = 
+                          (symN === 1 && sub === 's') ||
+                          (symN === 2 && (sub === 's' || sub === 'p')) ||
+                          (symN === 3 && (sub !== 'f')) ||
+                          (symN >= 4);
+
+                        const isSelected = symSub === sub;
+                        return (
+                          <button
+                            key={sub}
+                            disabled={!isAllowed}
+                            onClick={() => setSymSub(sub)}
+                            className={`w-5 h-5 rounded-md text-[10px] font-black uppercase transition-all flex items-center justify-center cursor-pointer ${
+                              isSelected
+                                ? 'bg-indigo-600 text-white font-black'
+                                : 'text-slate-400 hover:bg-white/5 disabled:opacity-20'
+                            }`}
+                          >
+                            {sub}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Selector e- count */}
+                  <div className="flex flex-col gap-1.5">
+                    <span className="text-[10px] font-black text-slate-400 text-center uppercase tracking-wider">อิเล็กตรอน (e⁻)</span>
+                    <div className="flex items-center justify-between bg-slate-950 px-2 py-1 rounded-xl border border-white/5">
+                      <button 
+                        onClick={() => setSymElectrons(prev => Math.max(1, prev - 1))}
+                        disabled={symElectrons <= 1}
+                        className="w-6 h-6 rounded-md bg-slate-800 hover:bg-slate-700 disabled:opacity-30 flex items-center justify-center text-white text-xs cursor-pointer"
+                      >
+                        <Minus size={12} />
+                      </button>
+                      <span className="font-mono font-bold text-sm text-white">{symElectrons}</span>
+                      <button 
+                        onClick={() => setSymElectrons(prev => Math.min(getCapacity(symSub), prev + 1))}
+                        disabled={symElectrons >= getCapacity(symSub)}
+                        className="w-6 h-6 rounded-md bg-slate-800 hover:bg-slate-700 disabled:opacity-30 flex items-center justify-center text-white text-xs cursor-pointer"
+                      >
+                        <Plus size={12} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+              </motion.div>
+            )}
+
+            {/* 2. UNPAIRED PLAYGROUND */}
+            {subTab === 'unpaired' && (
+              <motion.div
+                key="unpaired-play"
+                initial={{ opacity: 0, x: -15 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 15 }}
+                transition={{ duration: 0.2 }}
+                className="flex-1 flex flex-col min-h-full justify-between gap-3 lg:gap-4"
+              >
+                <div>
+                  <h3 className="text-sm font-bold text-emerald-400 flex items-center gap-2 border-b border-white/5 pb-2 mb-2">
+                    <Layers size={16} /> สังเกตการณ์จัดลูกศรสปินของอิเล็กตรอนเดี่ยว (Hund's Rule)
+                  </h3>
+                  <p className="text-[11px] sm:text-xs text-slate-400 leading-snug">
+                    กฎของฮุนด์ระบุว่า การจัดอิเล็กตรอนลงในออร์บิทัลที่มีพลังงานเท่ากัน ให้จัดลงในออร์บิทัลเดี่ยวแบบสปินชี้ขึ้น (↑) ให้ครบทุกห้องก่อน เพื่อให้พลังงานต่ำที่สุด 
+                    จากนั้นหากมีเหลือจึงจัดสปินชี้ลง (↓) เพื่อเข้าคู่! ปรับแต่งออร์บิทัลและจำนวนอิเล็กตรอนเพื่อดูผลลัพธ์
+                  </p>
+                </div>
+
+                {/* Subshell Choice and Slider Control */}
+                <div className="flex flex-col gap-3 bg-slate-950/40 p-3 rounded-2xl border border-white/5">
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+                    <span className="text-[11px] font-black text-slate-300 uppercase tracking-wider">เลือกระดับพลังงานย่อย (Subshell):</span>
+                    <div className="flex bg-slate-950 p-1 rounded-xl border border-white/10 gap-1 self-stretch sm:self-auto justify-center">
+                      {(['s', 'p', 'd', 'f'] as const).map(sub => (
+                        <button
+                          key={sub}
+                          type="button"
+                          onClick={() => setUnpSub(sub)}
+                          className={`px-3 py-1 rounded-lg text-[11px] sm:text-xs font-black uppercase transition-all cursor-pointer ${
+                            unpSub === sub
+                              ? 'bg-emerald-500 text-slate-950 font-black shadow'
+                              : 'text-slate-400 hover:text-slate-200'
+                          }`}
+                        >
+                          {sub} ({sub === 's' ? '1' : sub === 'p' ? '3' : sub === 'd' ? '5' : '7'} ออร์บิทัล)
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-slate-400 font-bold">จำนวนอิเล็กตรอนที่เติม:</span>
+                      <span className="text-emerald-400 font-mono font-black">{unpElectrons} / {getCapacity(unpSub)} ตัว</span>
+                    </div>
+                    <input
+                      type="range"
+                      min={1}
+                      max={getCapacity(unpSub)}
+                      value={unpElectrons}
+                      onChange={(e) => setUnpElectrons(parseInt(e.target.value))}
+                      className="w-full h-1.5 bg-slate-850 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                    />
+                  </div>
+                </div>
+
+                {/* Main Interactive Orbital Boxes Visualization */}
+                <div className="flex-1 flex flex-col items-center justify-center py-2">
+                  <span className="text-[10px] font-bold text-slate-500 tracking-widest uppercase mb-2">
+                    โครงสร้างห้องวงโคจร (Orbital Diagram)
+                  </span>
+                  
+                  <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 py-2 w-full px-2">
+                    {orbitBoxes.map((box, index) => (
+                      <div
+                        key={index}
+                        className={`w-12 h-14 rounded-xl border-2 flex flex-row items-center justify-center gap-1 relative transition-all duration-300 ${
+                          box.up && box.down
+                            ? 'border-indigo-500/40 bg-indigo-500/5 shadow-[0_0_10px_rgba(99,102,241,0.1)]'
+                            : box.up
+                            ? 'border-emerald-500 bg-emerald-500/10 shadow-[0_0_10px_rgba(34,197,94,0.15)] scale-[1.03]'
+                            : 'border-slate-800 bg-slate-950/60'
+                        }`}
+                      >
+                        {/* Orbital Room Label */}
+                        <span className="absolute top-1 text-[7px] sm:text-[8px] font-mono font-bold text-slate-500">
+                          {unpSub} (m={index - Math.floor(orbitBoxes.length / 2)})
+                        </span>
+
+                        {/* Electron Arrows inside */}
+                        <div className="flex items-center justify-center gap-0.5 mt-2">
+                          {box.up && (
+                            <motion.div 
+                              initial={{ scale: 0, y: 10 }}
+                              animate={{ scale: 1, y: 0 }}
+                              className="text-emerald-400 flex flex-col items-center"
+                              title="Spin Up"
+                            >
+                              <span className="text-lg font-bold leading-none select-none">↑</span>
+                              <span className="text-[5px] sm:text-[6px] font-sans text-emerald-400/60 font-semibold uppercase leading-none mt-0.5">up</span>
+                            </motion.div>
+                          )}
+                          {box.down && (
+                            <motion.div 
+                              initial={{ scale: 0, y: -10 }}
+                              animate={{ scale: 1, y: 0 }}
+                              className="text-indigo-400 flex flex-col items-center"
+                              title="Spin Down"
+                            >
+                              <span className="text-lg font-bold leading-none select-none">↓</span>
+                              <span className="text-[5px] sm:text-[6px] font-sans text-indigo-400/60 font-semibold uppercase leading-none mt-0.5">dn</span>
+                            </motion.div>
+                          )}
+                          {!box.up && !box.down && (
+                            <span className="text-slate-700 text-[10px] font-mono font-light select-none">ว่าง</span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Calculation breakdown summary */}
+                <div className="grid grid-cols-3 gap-2 bg-slate-950/80 p-3 rounded-2xl border border-white/5 text-center shadow-lg shrink-0">
+                  <div className="border-r border-white/5">
+                    <span className="block text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">อิเล็กตรอนเดี่ยว (Unpaired)</span>
+                    <span className="text-lg sm:text-xl font-black text-emerald-400 font-mono animate-pulse">{unpairedCount}</span>
+                    <span className="block text-[7px] sm:text-[8px] text-slate-500 mt-0.5">ตัว (สปินชี้เดี่ยว ↑)</span>
+                  </div>
+                  
+                  <div className="border-r border-white/5">
+                    <span className="block text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">อิเล็กตรอนจับคู่ (Paired)</span>
+                    <span className="text-lg sm:text-xl font-black text-indigo-400 font-mono">{pairedCount}</span>
+                    <span className="block text-[7px] sm:text-[8px] text-slate-500 mt-0.5">ตัว ({pairedCount / 2} คู่ ↑↓)</span>
+                  </div>
+
+                  <div>
+                    <span className="block text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">สัญลักษณ์ย่อยเต็ม</span>
+                    <span className="text-[10px] sm:text-xs font-black text-slate-200 uppercase leading-normal mt-1 block">
+                      {unpElectrons === getCapacity(unpSub) ? (
+                        <span className="text-amber-400 font-bold">บรรจุเต็มพอดี</span>
+                      ) : (
+                        <span className="text-slate-500 font-bold">บรรจุยังไม่เต็ม</span>
+                      )}
+                    </span>
+                    <span className="block text-[8px] text-slate-500 mt-0.5">ขีดความสามารถ</span>
+                  </div>
+                </div>
+
+              </motion.div>
+            )}
+
+            {/* 3. PERIODIC TABLE PLAYGROUND */}
+            {subTab === 'periodic' && (
+              <motion.div
+                key="periodic-play"
+                initial={{ opacity: 0, x: -15 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 15 }}
+                transition={{ duration: 0.2 }}
+                className="flex-1 flex flex-col min-h-full justify-between gap-4"
+              >
+                <div>
+                  <h3 className="text-sm font-bold text-amber-400 flex items-center gap-2 border-b border-white/5 pb-2.5 mb-2.5">
+                    <LayoutGrid size={16} /> ตารางธาตุจำลองระดับนิวเคลียร์ (Z = 1 - 36)
+                  </h3>
+                  <p className="text-[11px] sm:text-xs text-slate-400 leading-relaxed">
+                    ตารางธาตุถูกแบ่งออกตามบล็อกออร์บิทัลตัวสุดท้ายที่ถูกบรรจุ ได้แก่ <strong className="text-pink-400">s-block</strong> (หมู่ 1, 2 และ He), <strong className="text-cyan-400">p-block</strong> (หมู่ 13 - 18) และ <strong className="text-amber-400">d-block</strong> (ธาตุแทรนซิชัน) 
+                    ลองคลิกเลือกธาตุเพื่อค้นหาวิธีระบุตำแหน่งจากรูปแบบการจัดเรียงอิเล็กตรอน!
+                  </p>
+                </div>
+
+                {/* Color Legend */}
+                <div className="flex flex-row flex-wrap items-center gap-3 text-[9px] font-bold text-slate-400 px-1 shrink-0 justify-center">
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-pink-500/20 border border-pink-500/40" />s-block (โลหะหมู่หลัก)</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-cyan-500/20 border border-cyan-500/40" />p-block (อโลหะ/กึ่งโลหะ)</span>
+                  <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded bg-amber-500/20 border border-amber-500/40" />d-block (โลหะแทรนซิชัน)</span>
+                </div>
+
+                {/* 18-Column Interactive Miniature Periodic Table Grid */}
+                <div className="flex-1 w-full py-2 overflow-x-auto scrollbar-thin scrollbar-thumb-slate-800 shrink-0 relative">
+                  <div className="grid gap-1 min-w-[500px] select-none p-2 bg-slate-950/40 rounded-2xl border border-white/5 mx-auto" style={{ gridTemplateColumns: 'repeat(18, minmax(24px, 1fr))' }}>
+                    
+                    {/* Render Periodic Grid Cells manually according to coordinates */}
+                    {Array.from({ length: 4 }).map((_, rIdx) => {
+                      const currentPeriod = rIdx + 1;
+                      
+                      return Array.from({ length: 18 }).map((_, cIdx) => {
+                        const currentGroup = cIdx + 1;
+                        
+                        // Find element matching Period and Group
+                        const element = PERIODIC_ELEMENTS.find(
+                          el => el.period === currentPeriod && el.group === currentGroup
+                        );
+
+                        if (!element) {
+                          // Return empty spacer grid cell
+                          return <div key={`empty-${currentPeriod}-${currentGroup}`} className="aspect-square" />;
+                        }
+
+                        const isSelected = element.z === selectedZ;
+                        const blockColors = 
+                          element.block === 's' ? 'bg-pink-500/10 hover:bg-pink-500/25 border-pink-500/30 text-pink-300' :
+                          element.block === 'p' ? 'bg-cyan-500/10 hover:bg-cyan-500/25 border-cyan-500/30 text-cyan-300' :
+                          'bg-amber-500/10 hover:bg-amber-500/25 border-amber-500/30 text-amber-300';
+
+                        const selectedBorder = isSelected 
+                          ? 'ring-2 ring-white scale-110 shadow-lg z-10 font-black ' + 
+                            (element.block === 's' ? 'shadow-pink-500/30 bg-pink-500/40 text-white' : 
+                             element.block === 'p' ? 'shadow-cyan-500/30 bg-cyan-500/40 text-white' : 
+                             'shadow-amber-500/30 bg-amber-500/40 text-white')
+                          : 'border text-[10px]';
+
+                        return (
+                          <button
+                            key={element.z}
+                            type="button"
+                            onClick={() => setSelectedZ(element.z)}
+                            className={`aspect-square rounded-md border flex flex-col items-center justify-center cursor-pointer transition-all ${blockColors} ${selectedBorder}`}
+                          >
+                            <span className="text-[7px] leading-none text-slate-400 font-mono absolute -translate-y-2 sm:-translate-y-2.5">
+                              {element.z}
+                            </span>
+                            <span className="text-[10px] sm:text-xs font-black tracking-tighter block translate-y-0.5 sm:translate-y-1">
+                              {element.symbol}
+                            </span>
+                          </button>
+                        );
+                      });
+                    })}
+
+                  </div>
+                </div>
+
+                {/* Interactive derivation breakdown steps */}
+                <div className="bg-slate-950/80 p-4 rounded-2xl border border-white/5 shadow-inner">
+                  <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-2.5">
+                    <div>
+                      <h4 className="text-xs font-black text-white flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                        ธาตุที่เลือก: <span className="text-amber-400 font-black">{activeElement.name}</span>
+                      </h4>
+                      <p className="text-[9px] text-slate-400 font-mono">
+                        เลขอะตอม Z = {activeElement.z} | จัดเรียงอิเล็กตรอน: {activeElement.config}
+                      </p>
+                    </div>
+                    {activeElement.isException && (
+                      <span className="text-[9px] bg-red-500/10 border border-red-500/30 text-red-400 px-2 py-0.5 rounded font-black uppercase tracking-wider animate-pulse">
+                        ข้อยกเว้นพิเศษ
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-2 text-left">
+                    <div className="bg-slate-900/60 p-2.5 rounded-xl border border-white/5 flex flex-col justify-between">
+                      <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider block">1. สังเกต n สูงสุด</span>
+                      <div className="text-lg font-black text-indigo-400 font-mono mt-1">
+                        n = {activeElement.period}
+                      </div>
+                      <span className="text-[8px] text-slate-500 leading-tight">
+                        &rarr; คาบสูงสุด <strong className="text-slate-300">คาบที่ {activeElement.period}</strong>
+                      </span>
+                    </div>
+
+                    <div className="bg-slate-900/60 p-2.5 rounded-xl border border-white/5 flex flex-col justify-between">
+                      <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider block">2. เช็กตัวลงท้าย</span>
+                      <div className="text-lg font-black text-emerald-400 font-mono mt-1">
+                        {activeElement.valence}
+                      </div>
+                      <span className="text-[8px] text-slate-500 leading-tight">
+                        &rarr; วาเลนซ์อิเล็กตรอน
+                      </span>
+                    </div>
+
+                    <div className="bg-slate-900/60 p-2.5 rounded-xl border border-white/5 flex flex-col justify-between">
+                      <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider block">3. สรุปพิกัดหมู่ธาตุ</span>
+                      <div className="text-xs sm:text-sm font-black text-amber-400 font-mono mt-2 truncate">
+                        {activeElement.groupLabel}
+                      </div>
+                      <span className="text-[8px] text-slate-500 leading-tight">
+                        &rarr; บล็อก <strong className="text-slate-300">"{activeElement.block}"</strong>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+        </section>
+
+        {/* ================= RIGHT CONTROLS & THEORY PANEL ================= */}
+        <aside 
+          id="app-right-sidebar" 
+          className="w-full lg:w-96 flex flex-col gap-4 shrink-0 lg:h-full lg:overflow-y-auto pr-0 lg:pr-1 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent"
+        >
+          
+          {/* Panel: Theory and Core Academic Summary */}
+          <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl flex flex-col gap-4">
+            <h4 className="text-xs sm:text-sm font-bold text-slate-200 flex items-center gap-2 border-b border-white/5 pb-2">
+              <BookOpen size={15} className="text-blue-400" /> 
+              {subTab === 'symbol' && 'หัวข้อ: ความลับในสัญลักษณ์พลังงาน'}
+              {subTab === 'unpaired' && 'หัวข้อ: ความสปินของอิเล็กตรอนเดี่ยว'}
+              {subTab === 'periodic' && 'หัวข้อ: ถอดพิกัดคาบ-หมู่ ตารางธาตุ'}
+            </h4>
+
+            {subTab === 'symbol' && (
+              <div className="text-xs text-slate-300 space-y-2.5 leading-relaxed">
+                <p>
+                  สัญลักษณ์ทางเคมีเช่น <code className="text-blue-400 font-black">2p⁵</code> สามารถแกะเป็นข้อมูลควอนตัมได้ทันที:
+                </p>
+                <ul className="space-y-1.5 list-disc list-inside text-[11px] text-slate-400">
+                  <li>
+                    <strong className="text-slate-300">ตัวเลข (2)</strong>: บอกระดับพลังงานหลัก (n) แสดงถึงขนาดของออร์บิทัล
+                  </li>
+                  <li>
+                    <strong className="text-slate-300">ตัวอักษร (p)</strong>: บอกรูปร่างออร์บิทัล (s, p, d, f)
+                  </li>
+                  <li>
+                    <strong className="text-slate-300">เลขยกกำลัง (⁵)</strong>: จำนวนอิเล็กตรอนที่บรรจุในออร์บิทัลนั้น
+                  </li>
+                </ul>
+              </div>
+            )}
+
+            {subTab === 'unpaired' && (
+              <div className="text-xs text-slate-300 space-y-2.5 leading-relaxed">
+                <p>
+                  <strong className="text-emerald-400">ทำไมจำนวนอิเล็กตรอนเดี่ยวจึงสำคัญ?</strong> เพราะมันสอดคล้องโดยตรงกับ <strong className="text-white">คุณสมบัติแม่เหล็ก</strong> และความสามารถในการทำปฏิกิริยาเคมี!
+                </p>
+                <ul className="space-y-1.5 list-disc list-inside text-[11px] text-slate-400">
+                  <li>
+                    <strong className="text-slate-300">พาราแมกเนติก (Paramagnetic)</strong>: ธาตุที่มีอิเล็กตรอนเดี่ยวเหลืออยู่ จะตอบสนองและถูกดึงดูดโดยแม่เหล็กภายนอก
+                  </li>
+                  <li>
+                    <strong className="text-slate-300">ไดอะแมกเนติก (Diamagnetic)</strong>: ธาตุที่อิเล็กตรอนเข้าคู่กันหมดสมบูรณ์ (ไม่มีอิเล็กตรอนเดี่ยวเลย) จะถูกผลักออกเล็กน้อยโดยแม่เหล็กภายนอก
+                  </li>
+                </ul>
+              </div>
+            )}
+
+            {subTab === 'periodic' && (
+              <div className="text-xs text-slate-300 space-y-2.5 leading-relaxed">
+                <p>
+                  เมื่อเราจัดเรียงวาเลนซ์อิเล็กตรอนเสร็จสิ้น เราจะสามารถคาดเดาตำแหน่งพิกัดและพฤติกรรมดั่งแผนที่ได้ดังนี้:
+                </p>
+                <ul className="space-y-1.5 list-disc list-inside text-[11px] text-slate-400">
+                  <li>
+                    <strong className="text-slate-300">ค่า n สูงสุด</strong>: ระบุคาบ (Period) ในแนวราบ
+                  </li>
+                  <li>
+                    <strong className="text-slate-300">จำนวนวาเลนซ์อิเล็กตรอน</strong>: ระบุหมู่ (Group) ในแนวดิ่ง
+                  </li>
+                  <li>
+                    <strong className="text-slate-300">ระดับพลังงานย่อยสุดท้าย</strong>: ระบุบล็อก (s, p, d, f) แบ่งแยกสมบัติโลหะ-อโลหะ
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
+
+          {/* Panel: Live interactive Self-Assessment Quiz */}
+          <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl flex flex-col gap-4">
+            <div className="flex items-center justify-between border-b border-white/5 pb-2">
+              <h4 className="text-xs sm:text-sm font-black text-slate-200 flex items-center gap-2">
+                <HelpCircle size={15} className="text-amber-400" />
+                แบบทดสอบท้าทายความเข้าใจ
+              </h4>
+              <span className="text-[10px] font-bold bg-slate-950 px-2 py-0.5 rounded-lg border border-white/5 text-amber-400 font-mono">
+                คะแนนสะสม: {quizScore}
+              </span>
+            </div>
+
+            <AnimatePresence mode="wait">
+              {/* SYMBOL QUIZ */}
+              {subTab === 'symbol' && (
+                <motion.div
+                  key={`sym-quiz-${symQuizIndex}`}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.15 }}
+                  className="flex flex-col gap-3"
+                >
+                  <p className="text-xs font-black text-slate-100 leading-snug">
+                    คำถาม {symQuizIndex + 1}: {symQuizzes[symQuizIndex].q}
+                  </p>
+
+                  <div className="flex flex-col gap-2">
+                    {symQuizzes[symQuizIndex].options.map((option, idx) => {
+                      const isSelected = selectedSymAnswer === idx;
+                      const isCorrectAnswer = idx === symQuizzes[symQuizIndex].correct;
+                      
+                      let btnStyle = 'bg-slate-950/60 hover:bg-slate-950 text-slate-300 border-white/5';
+                      if (selectedSymAnswer !== null) {
+                        if (isCorrectAnswer) {
+                          btnStyle = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50';
+                        } else if (isSelected) {
+                          btnStyle = 'bg-red-500/20 text-red-300 border-red-500/50';
+                        } else {
+                          btnStyle = 'bg-slate-950/20 text-slate-500 border-transparent pointer-events-none';
+                        }
+                      }
+
+                      return (
+                        <button
+                          key={idx}
+                          type="button"
+                          disabled={selectedSymAnswer !== null}
+                          onClick={() => handleSymAnswer(idx)}
+                          className={`w-full text-left p-2.5 rounded-xl border text-[11px] font-bold leading-normal transition-all cursor-pointer flex items-center justify-between ${btnStyle}`}
+                        >
+                          <span>{option}</span>
+                          {selectedSymAnswer !== null && isCorrectAnswer && (
+                            <CheckCircle size={12} className="text-emerald-400 shrink-0 ml-2" />
+                          )}
+                          {selectedSymAnswer !== null && isSelected && !isCorrectAnswer && (
+                            <XCircle size={12} className="text-red-400 shrink-0 ml-2" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {selectedSymAnswer !== null && (
+                    <motion.div 
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      className="bg-slate-950/60 p-3 rounded-xl border border-white/5 mt-1"
+                    >
+                      <p className="text-[10px] text-slate-400 leading-relaxed">
+                        <strong className="text-amber-400 font-bold">อธิบายเพิ่มเติม:</strong> {symQuizzes[symQuizIndex].explanation}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={nextSymQuiz}
+                        className="w-full mt-2.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-black text-[10px] uppercase cursor-pointer flex items-center justify-center gap-1 transition-all"
+                      >
+                        <span>ข้อต่อไป</span>
+                        <ArrowRight size={11} />
+                      </button>
+                    </motion.div>
+                  )}
+                </motion.div>
+              )}
+
+              {/* UNPAIRED ELECTRON QUIZ */}
+              {subTab === 'unpaired' && (
+                <motion.div
+                  key={`unp-quiz-${unpQuizIndex}`}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.15 }}
+                  className="flex flex-col gap-3"
+                >
+                  <p className="text-xs font-black text-slate-100 leading-snug">
+                    คำถาม {unpQuizIndex + 1}: {unpQuizzes[unpQuizIndex].q}
+                  </p>
+
+                  <div className="flex flex-col gap-2">
+                    {unpQuizzes[unpQuizIndex].options.map((option, idx) => {
+                      const isSelected = selectedUnpAnswer === idx;
+                      const isCorrectAnswer = idx === unpQuizzes[unpQuizIndex].correct;
+                      
+                      let btnStyle = 'bg-slate-950/60 hover:bg-slate-950 text-slate-300 border-white/5';
+                      if (selectedUnpAnswer !== null) {
+                        if (isCorrectAnswer) {
+                          btnStyle = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50';
+                        } else if (isSelected) {
+                          btnStyle = 'bg-red-500/20 text-red-300 border-red-500/50';
+                        } else {
+                          btnStyle = 'bg-slate-950/20 text-slate-500 border-transparent pointer-events-none';
+                        }
+                      }
+
+                      return (
+                        <button
+                          key={idx}
+                          type="button"
+                          disabled={selectedUnpAnswer !== null}
+                          onClick={() => handleUnpAnswer(idx)}
+                          className={`w-full text-left p-2.5 rounded-xl border text-[11px] font-bold leading-normal transition-all cursor-pointer flex items-center justify-between ${btnStyle}`}
+                        >
+                          <span>{option}</span>
+                          {selectedUnpAnswer !== null && isCorrectAnswer && (
+                            <CheckCircle size={12} className="text-emerald-400 shrink-0 ml-2" />
+                          )}
+                          {selectedUnpAnswer !== null && isSelected && !isCorrectAnswer && (
+                            <XCircle size={12} className="text-red-400 shrink-0 ml-2" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {selectedUnpAnswer !== null && (
+                    <motion.div 
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      className="bg-slate-950/60 p-3 rounded-xl border border-white/5 mt-1"
+                    >
+                      <p className="text-[10px] text-slate-400 leading-relaxed">
+                        <strong className="text-amber-400 font-bold">อธิบายเพิ่มเติม:</strong> {unpQuizzes[unpQuizIndex].explanation}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={nextUnpQuiz}
+                        className="w-full mt-2.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-[10px] uppercase cursor-pointer flex items-center justify-center gap-1 transition-all"
+                      >
+                        <span>ข้อต่อไป</span>
+                        <ArrowRight size={11} />
+                      </button>
+                    </motion.div>
+                  )}
+                </motion.div>
+              )}
+
+              {/* PERIODIC QUIZ */}
+              {subTab === 'periodic' && (
+                <motion.div
+                  key={`per-quiz-${perQuizIndex}`}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.15 }}
+                  className="flex flex-col gap-3"
+                >
+                  <p className="text-xs font-black text-slate-100 leading-snug">
+                    คำถาม {perQuizIndex + 1}: {perQuizzes[perQuizIndex].q}
+                  </p>
+
+                  <div className="flex flex-col gap-2">
+                    {perQuizzes[perQuizIndex].options.map((option, idx) => {
+                      const isSelected = selectedPerAnswer === idx;
+                      const isCorrectAnswer = idx === perQuizzes[perQuizIndex].correct;
+                      
+                      let btnStyle = 'bg-slate-950/60 hover:bg-slate-950 text-slate-300 border-white/5';
+                      if (selectedPerAnswer !== null) {
+                        if (isCorrectAnswer) {
+                          btnStyle = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50';
+                        } else if (isSelected) {
+                          btnStyle = 'bg-red-500/20 text-red-300 border-red-500/50';
+                        } else {
+                          btnStyle = 'bg-slate-950/20 text-slate-500 border-transparent pointer-events-none';
+                        }
+                      }
+
+                      return (
+                        <button
+                          key={idx}
+                          type="button"
+                          disabled={selectedPerAnswer !== null}
+                          onClick={() => handlePerAnswer(idx)}
+                          className={`w-full text-left p-2.5 rounded-xl border text-[11px] font-bold leading-normal transition-all cursor-pointer flex items-center justify-between ${btnStyle}`}
+                        >
+                          <span>{option}</span>
+                          {selectedPerAnswer !== null && isCorrectAnswer && (
+                            <CheckCircle size={12} className="text-emerald-400 shrink-0 ml-2" />
+                          )}
+                          {selectedPerAnswer !== null && isSelected && !isCorrectAnswer && (
+                            <XCircle size={12} className="text-red-400 shrink-0 ml-2" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {selectedPerAnswer !== null && (
+                    <motion.div 
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      className="bg-slate-950/60 p-3 rounded-xl border border-white/5 mt-1"
+                    >
+                      <p className="text-[10px] text-slate-400 leading-relaxed">
+                        <strong className="text-amber-400 font-bold">อธิบายเพิ่มเติม:</strong> {perQuizzes[perQuizIndex].explanation}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={nextPerQuiz}
+                        className="w-full mt-2.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-[10px] uppercase cursor-pointer flex items-center justify-center gap-1 transition-all"
+                      >
+                        <span>ข้อต่อไป</span>
+                        <ArrowRight size={11} />
+                      </button>
+                    </motion.div>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <button
+              type="button"
+              onClick={resetQuizScore}
+              className="mt-2 text-[10px] font-bold text-slate-400 hover:text-white underline text-center cursor-pointer flex items-center justify-center gap-1 transition-colors"
+            >
+              <RotateCcw size={10} />
+              <span>ล้างผลคะแนนเริ่มต้นใหม่</span>
+            </button>
+          </div>
+
+        </aside>
+
+      </div>
+
+    </div>
+  );
+}
