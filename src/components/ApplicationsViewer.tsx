@@ -81,7 +81,7 @@ export default function ApplicationsViewer() {
   const [symN, setSymN] = useState<number>(2);
   const [symSub, setSymSub] = useState<'s' | 'p' | 'd' | 'f'>('p');
   const [symElectrons, setSymElectrons] = useState<number>(5);
-  const [activeHoverPart, setActiveHoverPart] = useState<'n' | 'l' | 'e' | null>(null);
+  const [activeHoverPart, setActiveHoverPart] = useState<'n' | 'l' | 'e'>('n');
 
   // Maximum electron capacity depending on subshell type
   const getCapacity = (sub: 's' | 'p' | 'd' | 'f') => {
@@ -417,10 +417,10 @@ export default function ApplicationsViewer() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 15 }}
                 transition={{ duration: 0.2 }}
-                className="flex-1 flex flex-col min-h-full justify-between gap-6"
+                className="flex-1 flex flex-col min-h-full justify-between gap-3 lg:gap-4"
               >
                 <div>
-                  <h3 className="text-sm font-bold text-blue-400 flex items-center gap-2 border-b border-white/5 pb-2.5 mb-4">
+                  <h3 className="text-sm font-bold text-blue-400 flex items-center gap-2 border-b border-white/5 pb-2 mb-2">
                     <Sparkles size={16} /> เครื่องมือวิเคราะห์โครงสร้างสัญลักษณ์ทางเคมี
                   </h3>
                   <p className="text-[11px] sm:text-xs text-slate-400 leading-snug">
@@ -429,14 +429,13 @@ export default function ApplicationsViewer() {
                 </div>
 
                 {/* Main Interactive Giant Symbol Display */}
-                <div className="flex-1 flex items-center justify-center py-6 relative">
+                <div className="flex-1 flex items-center justify-center py-2 lg:py-4 relative">
                   <div className="absolute inset-0 bg-radial-gradient from-blue-500/5 to-transparent pointer-events-none rounded-full blur-xl" />
                   
-                  <div className="flex items-baseline font-mono select-none bg-slate-950/60 p-8 rounded-3xl border border-white/5 shadow-2xl relative max-w-sm w-full justify-center gap-1.5 group">
+                  <div className="flex items-baseline font-mono select-none bg-slate-950/60 p-4 sm:p-6 rounded-3xl border border-white/5 shadow-2xl relative max-w-sm w-full justify-center gap-1.5 group">
                     {/* Part n: Principal Quantum Number */}
                     <div 
                       onMouseEnter={() => setActiveHoverPart('n')}
-                      onMouseLeave={() => setActiveHoverPart(null)}
                       onClick={() => setActiveHoverPart('n')}
                       className={`text-7xl sm:text-8xl font-black transition-all duration-200 cursor-pointer px-2 rounded-2xl relative ${
                         activeHoverPart === 'n' 
@@ -453,7 +452,6 @@ export default function ApplicationsViewer() {
                     {/* Part l: Subshell symbol */}
                     <div 
                       onMouseEnter={() => setActiveHoverPart('l')}
-                      onMouseLeave={() => setActiveHoverPart(null)}
                       onClick={() => setActiveHoverPart('l')}
                       className={`text-6xl sm:text-7xl font-bold italic transition-all duration-200 cursor-pointer px-2 rounded-2xl relative ${
                         activeHoverPart === 'l' 
@@ -470,7 +468,6 @@ export default function ApplicationsViewer() {
                     {/* Part e: Electron count */}
                     <div 
                       onMouseEnter={() => setActiveHoverPart('e')}
-                      onMouseLeave={() => setActiveHoverPart(null)}
                       onClick={() => setActiveHoverPart('e')}
                       className={`text-4xl sm:text-5xl font-extrabold transition-all duration-200 cursor-pointer px-2 py-1 rounded-2xl relative -translate-y-8 ${
                         activeHoverPart === 'e' 
@@ -487,12 +484,8 @@ export default function ApplicationsViewer() {
                 </div>
 
                 {/* Contextual description based on clicked/hovered part */}
-                <div className="bg-slate-950/60 p-4 rounded-2xl border border-white/5 min-h-[92px] flex items-center justify-center text-center">
-                  {!activeHoverPart ? (
-                    <p className="text-[11px] sm:text-xs text-slate-400 italic">
-                      💡 ทดลองนำเมาส์มาชี้ หรือคลิกแต่ละส่วนประกอบด้านบนเพื่อดูคำอธิบายทางวิชาการและรายละเอียดเชิงลึก
-                    </p>
-                  ) : activeHoverPart === 'n' ? (
+                <div className="bg-slate-950/60 p-3 sm:p-4 rounded-2xl border border-white/5 min-h-[70px] sm:min-h-[80px] flex items-center justify-center text-center">
+                  {activeHoverPart === 'n' ? (
                     <div className="text-left">
                       <h4 className="text-[11px] font-black text-blue-400 uppercase tracking-wider mb-1">
                         ระดับพลังงานหลัก (n = {symN})
