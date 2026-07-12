@@ -446,7 +446,7 @@ export default function App() {
                 activeTab === 'applications' ? 'border-blue-400 text-blue-300 font-bold' : 'border-transparent text-slate-400 hover:text-slate-200'
               }`}
             >
-              การประยุกต์ใช้
+              การนำไปประยุกต์ใช้
             </button>
           </div>
 
@@ -523,7 +523,7 @@ export default function App() {
                     : 'text-slate-300 hover:bg-slate-800'
                 }`}
               >
-                การประยุกต์ใช้
+                การนำไปประยุกต์ใช้
               </button>
             </motion.div>
           )}
@@ -691,7 +691,7 @@ export default function App() {
               className="flex flex-col gap-4"
             >
               {/* Hund's Rule filling demo */}
-              <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl shrink-0">
+              <div className="bg-gradient-to-b from-slate-900/80 to-slate-950/80 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl shrink-0">
                 <h2 className="text-xs sm:text-sm font-bold text-slate-300 mb-3 flex items-center justify-between gap-2">
                   <span className="flex items-center gap-2">
                     <Layers size={15} className="text-blue-400 shrink-0" />
@@ -782,7 +782,7 @@ export default function App() {
               </div>
  
               {/* Step 4: Theoretical knowledge */}
-              <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl shrink-0 hidden lg:flex flex-col gap-3">
+              <div className="bg-gradient-to-b from-slate-900/80 to-slate-950/80 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl shrink-0 hidden lg:flex flex-col gap-3">
                 <h3 className="text-xs font-bold text-slate-300 flex items-center gap-1.5 border-b border-white/5 pb-2">
                   <Info size={14} className="text-amber-400" />
                   <span>ข้อมูลวิชาการและกฎการจัดเรียง</span>

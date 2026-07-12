@@ -376,15 +376,15 @@ export default function ApplicationsViewer() {
   };
 
   return (
-    <div id="applications-container" className="flex-1 relative w-full h-full flex flex-col gap-4 min-h-0 overflow-y-auto lg:overflow-hidden">
+    <div id="applications-container" className="flex-1 relative w-full h-full flex flex-col gap-3 lg:gap-4 min-h-0 overflow-y-auto lg:overflow-hidden">
       
       {/* Main Double Panel Content */}
-      <div id="app-panels-wrapper" className="flex-1 flex flex-col lg:flex-row gap-4 min-h-0 pb-16 lg:pb-0">
+      <div id="app-panels-wrapper" className="flex-1 flex flex-col lg:flex-row gap-3 lg:gap-4 min-h-0 pb-16 lg:pb-0">
         
         {/* ================= LEFT PLAYGROUND PANEL ================= */}
         <section 
           id="app-left-playground" 
-          className="w-full lg:flex-1 h-[420px] lg:h-full bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-y-auto scrollbar-thin scrollbar-thumb-slate-800 flex flex-col shrink-0 shadow-2xl p-0 sm:p-6"
+          className="w-full sticky lg:relative top-0 z-30 lg:flex-1 h-[380px] sm:h-[480px] lg:h-full bg-gradient-to-b from-slate-900 to-slate-950 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-y-auto scrollbar-thin scrollbar-thumb-slate-800 flex flex-col shrink-0 shadow-2xl p-0 sm:p-6"
         >
           {/* MOBILE UNIFIED TABS - INTEGRATED HEADER STYLE */}
           <div className="sm:hidden flex flex-row items-center justify-between gap-2 p-2 pb-1.5 border-b border-white/5 bg-slate-950/20 z-10 shrink-0">
@@ -844,12 +844,16 @@ export default function ApplicationsViewer() {
         {/* ================= RIGHT CONTROLS & THEORY PANEL ================= */}
         <aside 
           id="app-right-sidebar" 
-          className="w-full lg:w-96 flex flex-col gap-4 shrink-0 lg:h-full lg:overflow-y-auto pr-0 lg:pr-1 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent"
+          className="w-full lg:w-96 flex flex-col gap-4 shrink-0 lg:h-full lg:overflow-y-auto pr-0 lg:pr-1 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent relative z-20 pb-6 lg:pb-0"
         >
-
-          {/* Panel: Theory and Core Academic Summary */}
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col gap-4"
+          >
+            {/* Panel: Theory and Core Academic Summary */}
           <div className="hidden lg:flex relative">
-            <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl flex flex-col gap-4 min-h-[180px] w-full">
+            <div className="bg-gradient-to-b from-slate-900/90 to-slate-950/90 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl flex flex-col gap-4 min-h-[180px] w-full">
               <h4 className="text-xs sm:text-sm font-bold text-slate-200 flex items-center gap-2 border-b border-white/5 pb-2">
                 <BookOpen size={15} className="text-blue-400" /> 
                 {subTab === 'symbol' && 'หัวข้อ: ความลับในสัญลักษณ์พลังงาน'}
@@ -963,7 +967,7 @@ export default function ApplicationsViewer() {
           </div>
 
           {/* Panel: Live interactive Self-Assessment Quiz */}
-          <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl flex flex-col gap-4">
+          <div className="bg-gradient-to-b from-slate-900/90 to-slate-950/90 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl flex flex-col gap-4">
             <div className="flex items-center justify-between border-b border-white/5 pb-2">
               <h4 className="text-xs sm:text-sm font-black text-slate-200 flex items-center gap-2">
                 <HelpCircle size={15} className="text-amber-400" />
@@ -1202,6 +1206,7 @@ export default function ApplicationsViewer() {
             </button>
           </div>
 
+          </motion.div>
         </aside>
 
       </div>

@@ -574,7 +574,7 @@ export default function EnergyLevelsViewer({
   const activeElement = ELEMENTS_DATA[electronCount] || ELEMENTS_DATA[1];
 
   return (
-    <div className="w-full h-full flex flex-col p-0 md:p-3 relative z-10 overflow-hidden md:bg-slate-950/40 md:rounded-3xl">
+    <div className="w-full h-full flex flex-col p-0 md:p-3 relative z-10 overflow-hidden md:bg-gradient-to-b md:from-slate-900 md:to-slate-950 md:rounded-3xl md:border md:border-white/5">
       
       {/* MOBILE UNIFIED TABS - INTEGRATED HEADER STYLE */}
       <div className="md:hidden flex flex-row items-center justify-between gap-2 p-2 pb-1.5 border-b border-white/5 bg-slate-950/20 z-10 shrink-0">
@@ -622,10 +622,10 @@ export default function EnergyLevelsViewer({
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col md:flex-row gap-2 md:gap-3 min-h-0 overflow-hidden">
+      <div className="flex-1 flex flex-col md:flex-row gap-3 min-h-0 overflow-hidden">
         
         {/* 1. Atom Model Display Container */}
-        <div className={`w-full md:w-[38%] lg:w-[35%] flex-1 md:flex-none flex flex-col items-center justify-start md:justify-center bg-slate-900/40 border-0 md:border border-white/5 rounded-none md:rounded-2xl p-0.5 md:p-3 pt-1 md:pt-3 relative md:shrink-0 min-h-[280px] md:min-h-[350px] ${
+        <div className={`w-full md:w-[38%] lg:w-[35%] flex-1 md:flex-none flex flex-col items-center justify-start md:justify-center bg-gradient-to-b from-slate-900/40 to-slate-950/40 border-0 md:border border-white/5 rounded-none md:rounded-2xl p-0.5 md:p-3 pt-1 md:pt-3 relative md:shrink-0 min-h-[280px] md:min-h-[350px] ${
           (modelType === 'ladder' || modelType === 'summary') ? 'hidden md:flex' : 'flex'
         }`}>
           
@@ -904,7 +904,7 @@ export default function EnergyLevelsViewer({
         </div>
 
         {/* 2. Suborbitals Energy Levels Ladder Display */}
-        <div className={`flex-1 flex flex-col bg-slate-900/40 border-0 md:border border-white/5 rounded-none md:rounded-2xl p-3 sm:p-4 md:p-5 relative overflow-hidden pt-2 md:pt-5 ${
+        <div className={`flex-1 flex flex-col bg-gradient-to-b from-slate-900/40 to-slate-950/40 border-0 md:border border-white/5 rounded-none md:rounded-2xl p-3 sm:p-4 md:p-5 relative overflow-hidden pt-2 md:pt-5 ${
           modelType === 'ladder' ? 'flex' : 'hidden md:flex'
         }`}>
           
@@ -1144,7 +1144,7 @@ export default function EnergyLevelsViewer({
                 initial={{ scale: 0.95, y: 15 }}
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.95, y: 15 }}
-                className="bg-slate-900 border border-white/10 rounded-2xl p-5 max-w-md w-full shadow-2xl relative overflow-hidden"
+                className="bg-gradient-to-b from-slate-900 to-slate-950 border border-white/10 rounded-2xl p-5 max-w-md w-full shadow-2xl relative overflow-hidden"
               >
                 {/* Accent glow */}
                 <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500" />
