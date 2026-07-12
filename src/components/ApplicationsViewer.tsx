@@ -643,54 +643,40 @@ export default function ApplicationsViewer() {
                   
                   <div className="flex flex-nowrap overflow-x-auto items-center justify-start sm:justify-center gap-1.5 sm:gap-2 py-2 w-full px-2 scrollbar-thin scrollbar-thumb-slate-700 pb-3">
                     {orbitBoxes.map((box, index) => {
-                      const isPaired = box.up && box.down;
-                      const subColorCls = isPaired ? 'text-cyan-400' : unpSub === 's' ? 'text-pink-400' : unpSub === 'p' ? 'text-cyan-400' : unpSub === 'd' ? 'text-amber-400' : 'text-purple-400';
-                      const borderColorCls = isPaired ? 'border-cyan-500' : unpSub === 's' ? 'border-pink-500' : unpSub === 'p' ? 'border-cyan-500' : unpSub === 'd' ? 'border-amber-500' : 'border-purple-500';
-                      const bgColorCls = isPaired ? 'bg-cyan-500' : unpSub === 's' ? 'bg-pink-500' : unpSub === 'p' ? 'bg-cyan-500' : unpSub === 'd' ? 'bg-amber-500' : 'bg-purple-500';
-                      const shadowColorCls = isPaired ? 'shadow-cyan-500/20' : unpSub === 's' ? 'shadow-pink-500/20' : unpSub === 'p' ? 'shadow-cyan-500/20' : unpSub === 'd' ? 'shadow-amber-500/20' : 'shadow-purple-500/20';
+                      const hasSpinUp = box.up;
+                      const hasSpinDown = box.down;
 
                       return (
                       <div
                         key={index}
-                        className={`w-11 sm:w-14 h-12 sm:h-14 rounded-md sm:rounded-xl border-2 flex flex-row items-center justify-center shrink-0 gap-0.5 relative transition-all duration-300 ${
-                          box.up && box.down
-                            ? `${borderColorCls}/60 ${bgColorCls}/10 shadow-[0_0_8px_var(--tw-shadow-color)] ${shadowColorCls}`
-                            : box.up
-                            ? `${borderColorCls} ${bgColorCls}/20 shadow-[0_0_12px_var(--tw-shadow-color)] ${shadowColorCls} scale-[1.03]`
-                            : 'border-slate-800 bg-slate-950/60'
+                        className={`w-7 h-9 rounded-md border flex items-center justify-center gap-0.5 relative font-mono text-sm font-black transition-all duration-200 shrink-0 ${
+                          hasSpinDown
+                             ? 'border-amber-400 bg-amber-500/15 text-amber-300 shadow-inner shadow-amber-500/10'
+                             : hasSpinUp
+                               ? 'border-sky-400 bg-sky-500/10 text-sky-300'
+                               : 'border-white/5 bg-slate-900/30 text-slate-700'
                         }`}
                       >
-                        {/* Orbital Room Label */}
-                        <span className="absolute top-0.5 sm:top-1 text-[7px] sm:text-[8px] font-mono font-bold text-slate-500">
-                          {unpSub}
+                        {/* Spin Up Arrow */}
+                        <span
+                           className={`transition-all duration-300 select-none ${
+                            hasSpinUp ? 'opacity-100 scale-110 translate-y-0' : 'opacity-0 -translate-y-2 scale-75'
+                          }`}
+                        >
+                          ↿
                         </span>
-
-                        {/* Electron Arrows inside */}
-                        <div className="flex items-center justify-center mt-2.5 sm:mt-3 gap-px">
-                          {box.up && (
-                            <motion.div 
-                              initial={{ scale: 0, y: 10 }}
-                              animate={{ scale: 1, y: 0 }}
-                              className={`${subColorCls} flex flex-col items-center`}
-                              title="Spin Up"
-                            >
-                              <span className="text-base sm:text-lg font-bold leading-none select-none">↑</span>
-                            </motion.div>
-                          )}
-                          {box.down && (
-                            <motion.div 
-                              initial={{ scale: 0, y: -10 }}
-                              animate={{ scale: 1, y: 0 }}
-                              className={`${subColorCls} flex flex-col items-center`}
-                              title="Spin Down"
-                            >
-                              <span className="text-base sm:text-lg font-bold leading-none select-none">↓</span>
-                            </motion.div>
-                          )}
-                          {!box.up && !box.down && (
-                            <span className="text-slate-700 text-[9px] sm:text-[10px] font-mono font-light select-none">ว่าง</span>
-                          )}
-                        </div>
+                        {/* Spin Down Arrow */}
+                        <span
+                           className={`transition-all duration-300 select-none ${
+                            hasSpinDown ? 'opacity-100 scale-110 translate-y-0 text-amber-400' : 'opacity-0 translate-y-2 scale-75'
+                          }`}
+                        >
+                          ⇂
+                        </span>
+                        
+                        <span className="absolute bottom-[0.5px] right-[1.5px] text-[5px] text-slate-400/20 font-normal">
+                          {index + 1}
+                        </span>
                       </div>
                     )})}
                   </div>
@@ -700,13 +686,13 @@ export default function ApplicationsViewer() {
                 <div className="grid grid-cols-3 gap-2 bg-slate-950/80 p-3 rounded-2xl border border-white/5 text-center shadow-lg shrink-0">
                   <div className="border-r border-white/5">
                     <span className="block text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">อิเล็กตรอนเดี่ยว</span>
-                    <span className={`text-lg sm:text-xl font-black ${unpSub === 's' ? 'text-pink-400' : unpSub === 'p' ? 'text-cyan-400' : unpSub === 'd' ? 'text-amber-400' : 'text-purple-400'} font-mono animate-pulse`}>{unpairedCount}</span>
+                    <span className="text-lg sm:text-xl font-black text-sky-400 font-mono animate-pulse">{unpairedCount}</span>
                     <span className="block text-[7px] sm:text-[8px] text-slate-500 mt-0.5">ตัว (สปินชี้เดี่ยว ↑)</span>
                   </div>
                   
                   <div className="border-r border-white/5">
                     <span className="block text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">อิเล็กตรอนจับคู่</span>
-                    <span className="text-lg sm:text-xl font-black text-cyan-400 font-mono">{pairedCount}</span>
+                    <span className="text-lg sm:text-xl font-black text-amber-400 font-mono">{pairedCount}</span>
                     <span className="block text-[7px] sm:text-[8px] text-slate-500 mt-0.5">ตัว ({pairedCount / 2} คู่ ↑↓)</span>
                   </div>
 
