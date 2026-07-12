@@ -215,16 +215,16 @@ export default function SubEnergyLevelsViewer({ onOpenRulesExplanation }: SubEne
     }));
 
   return (
-    <div className="absolute inset-0 flex flex-col lg:flex-row text-slate-100 p-0 md:p-3 gap-2 md:gap-3 lg:gap-4 z-10 w-full h-full overflow-y-auto lg:overflow-hidden bg-slate-950">
+    <div className="absolute inset-0 flex flex-col lg:flex-row text-slate-100 p-2 sm:p-3 md:p-4 gap-3 lg:gap-4 z-10 w-full h-full overflow-y-auto lg:overflow-hidden bg-slate-950">
       
       {/* LEFT COLUMN: Consolidated Container with nested cards */}
-      <div className="w-full lg:w-auto lg:flex-[2.2] flex flex-col gap-2 lg:gap-4 lg:shrink h-auto lg:h-full relative overflow-visible bg-transparent lg:min-w-0">
+      <div className="w-full lg:w-auto lg:flex-[2.2] flex flex-col gap-3 lg:gap-4 lg:shrink h-auto lg:h-full relative overflow-visible bg-transparent lg:min-w-0">
 
         {/* Content Area - Split lg:flex-row on desktop, single column on mobile */}
-        <div className="flex-1 flex flex-col lg:flex-row gap-2 lg:gap-4 min-h-0 lg:h-full">
+        <div className="flex-1 flex flex-col lg:flex-row gap-3 lg:gap-4 min-h-0 lg:h-full">
           
           {/* Panel 1: 3D Orbital Model */}
-          <div className={`w-full lg:flex-[1] bg-gradient-to-b from-slate-900/40 to-slate-950/40 backdrop-blur-xl border-0 lg:border border-white/10 rounded-none lg:rounded-3xl relative overflow-hidden flex flex-col shrink-0 h-[400px] lg:h-full shadow-xl ${
+          <div className={`w-full lg:flex-[1] bg-gradient-to-b from-slate-900/40 to-slate-950/40 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-hidden flex flex-col shrink-0 h-[400px] lg:h-full shadow-xl ${
             subViewMode === 'orbital' ? 'flex' : 'hidden lg:flex'
           }`}>
             {/* MOBILE UNIFIED TABS - INTEGRATED HEADER STYLE */}
@@ -254,16 +254,14 @@ export default function SubEnergyLevelsViewer({ onOpenRulesExplanation }: SubEne
                 </button>
               </div>
 
-              <div className="p-0.5">
-                <button 
-                  onClick={onOpenRulesExplanation} 
-                  className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-black px-2.5 py-1.5 rounded-lg text-[10px] transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-sm shadow-blue-500/5"
-                  title="คำอธิบาย"
-                >
-                  <Info size={12} className="shrink-0" />
-                  <span>คำอธิบาย</span>
-                </button>
-              </div>
+              <button 
+                onClick={onOpenRulesExplanation} 
+                className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-black px-2.5 py-1.5 rounded-lg text-[10px] transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-sm shadow-blue-500/5"
+                title="คำอธิบาย"
+              >
+                <Info size={12} className="shrink-0" />
+                <span>คำอธิบาย</span>
+              </button>
             </div>
 
             <div className="shrink-0 border-b border-white/5 pb-3 flex flex-col gap-3 px-4 sm:px-5 pt-4 sm:pt-5 lg:bg-slate-950/20">
@@ -313,7 +311,7 @@ export default function SubEnergyLevelsViewer({ onOpenRulesExplanation }: SubEne
           </div>
 
           {/* Panel 2: Bohr Model Diagram */}
-          <div className={`w-full lg:flex-[1.2] bg-gradient-to-b from-slate-900/40 to-slate-950/40 backdrop-blur-xl border-0 lg:border border-white/10 rounded-none lg:rounded-3xl relative overflow-hidden flex flex-col shrink-0 h-[400px] lg:h-full shadow-xl ${
+          <div className={`w-full lg:flex-[1.2] bg-gradient-to-b from-slate-900/40 to-slate-950/40 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-hidden flex flex-col shrink-0 h-[400px] lg:h-full shadow-xl ${
             subViewMode === 'bohr' ? 'flex' : 'hidden lg:flex'
           }`}>
             {/* MOBILE UNIFIED TABS - INTEGRATED HEADER STYLE */}
@@ -343,16 +341,14 @@ export default function SubEnergyLevelsViewer({ onOpenRulesExplanation }: SubEne
                 </button>
               </div>
 
-              <div className="p-0.5">
-                <button 
-                  onClick={onOpenRulesExplanation} 
-                  className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-black px-2.5 py-1.5 rounded-lg text-[10px] transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-sm shadow-blue-500/5"
-                  title="คำอธิบาย"
-                >
-                  <Info size={12} className="shrink-0" />
-                  <span>คำอธิบาย</span>
-                </button>
-              </div>
+              <button 
+                onClick={onOpenRulesExplanation} 
+                className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-black px-2.5 py-1.5 rounded-lg text-[10px] transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-sm shadow-blue-500/5"
+                title="คำอธิบาย"
+              >
+                <Info size={12} className="shrink-0" />
+                <span>คำอธิบาย</span>
+              </button>
             </div>
 
             <div className="shrink-0 border-b border-white/5 pb-3 flex flex-col gap-3 px-4 sm:px-5 pt-4 sm:pt-5 lg:bg-slate-950/20">
@@ -482,7 +478,7 @@ export default function SubEnergyLevelsViewer({ onOpenRulesExplanation }: SubEne
       <div className="w-full lg:w-auto lg:flex-[1.0] flex flex-col gap-4 lg:overflow-y-auto overflow-y-visible h-auto lg:h-full scrollbar-none pb-6 lg:pb-0 lg:shrink lg:min-w-[315px]">
         
         {/* N Selector Card */}
-        <div className="bg-slate-900/80 backdrop-blur-xl border-x-0 lg:border border-white/10 p-5 rounded-none lg:rounded-3xl shadow-xl shrink-0">
+        <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl shrink-0">
           <h2 className="text-sm font-bold text-sky-400 mb-4 flex items-center gap-2 border-b border-white/5 pb-2">
             <Layers size={16} /> เลื่อนดูระดับพลังงานหลัก
           </h2>
@@ -560,7 +556,7 @@ export default function SubEnergyLevelsViewer({ onOpenRulesExplanation }: SubEne
         </div>
 
         {/* Active Subshell Card */}
-        <div className="bg-slate-900/80 backdrop-blur-xl border-x-0 lg:border border-blue-500/20 p-5 rounded-none lg:rounded-3xl shadow-xl shrink-0 hidden lg:flex flex-col">
+        <div className="bg-slate-900/80 backdrop-blur-xl border border-blue-500/20 p-5 rounded-3xl shadow-xl shrink-0 hidden lg:flex flex-col">
           <h2 className="text-xs font-bold text-blue-400 mb-3 flex items-center gap-2 border-b border-white/5 pb-2">
             <Sparkles size={14} /> ข้อมูลออร์บิทัลที่เลือกล่าสุด
           </h2>

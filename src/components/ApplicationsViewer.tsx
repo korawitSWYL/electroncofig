@@ -376,19 +376,19 @@ export default function ApplicationsViewer() {
   };
 
   return (
-    <div id="applications-container" className="flex-1 relative w-full h-full flex flex-col gap-2 md:gap-3 min-h-0 overflow-y-auto lg:overflow-hidden">
+    <div id="applications-container" className="flex-1 relative w-full h-full flex flex-col gap-4 min-h-0 overflow-y-auto lg:overflow-hidden">
       
       {/* Main Double Panel Content */}
-      <div id="app-panels-wrapper" className="flex-1 flex flex-col lg:flex-row gap-2 md:gap-3 min-h-0 pb-16 lg:pb-0">
+      <div id="app-panels-wrapper" className="flex-1 flex flex-col lg:flex-row gap-4 min-h-0 pb-16 lg:pb-0">
         
         {/* ================= LEFT PLAYGROUND PANEL ================= */}
         <section 
           id="app-left-playground" 
-          className="w-full lg:flex-1 h-[420px] lg:h-full bg-slate-900/40 backdrop-blur-xl border-0 lg:border border-white/10 rounded-none lg:rounded-3xl relative overflow-y-auto scrollbar-thin scrollbar-thumb-slate-800 flex flex-col shrink-0 shadow-2xl p-0.5 lg:p-6"
+          className="w-full lg:flex-1 h-[420px] lg:h-full bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-y-auto scrollbar-thin scrollbar-thumb-slate-800 flex flex-col shrink-0 shadow-2xl p-0 sm:p-6"
         >
           {/* MOBILE UNIFIED TABS - INTEGRATED HEADER STYLE */}
           <div className="sm:hidden flex flex-row items-center justify-between gap-2 p-2 pb-1.5 border-b border-white/5 bg-slate-950/20 z-10 shrink-0">
-            <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start overflow-x-auto scrollbar-none max-w-full shadow-inner">
+            <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start overflow-x-auto scrollbar-none max-w-[calc(100%-80px)] shadow-inner">
               <button
                 id="tab-btn-symbol-mobile"
                 type="button"
@@ -429,16 +429,14 @@ export default function ApplicationsViewer() {
               </button>
             </div>
 
-            <div className="p-0.5">
-              <button 
-                onClick={() => setActiveInfoPopup('combined')} 
-                className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-black px-2.5 py-1.5 rounded-lg text-[10px] transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-sm shadow-blue-500/5"
-                title="คำอธิบาย"
-              >
-                <Info size={12} className="shrink-0" />
-                <span>คำอธิบาย</span>
-              </button>
-            </div>
+            <button 
+              onClick={() => setActiveInfoPopup('combined')} 
+              className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-black px-2.5 py-1.5 rounded-lg text-[10px] transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-sm shadow-blue-500/5"
+              title="คำอธิบาย"
+            >
+              <Info size={12} className="shrink-0" />
+              <span>คำอธิบาย</span>
+            </button>
           </div>
 
           {/* Desktop Header with Sub-tabs and Info Button */}
@@ -846,12 +844,12 @@ export default function ApplicationsViewer() {
         {/* ================= RIGHT CONTROLS & THEORY PANEL ================= */}
         <aside 
           id="app-right-sidebar" 
-          className="w-full lg:w-96 flex flex-col gap-2 md:gap-3 shrink-0 lg:h-full lg:overflow-y-auto pr-0 lg:pr-1 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent"
+          className="w-full lg:w-96 flex flex-col gap-4 shrink-0 lg:h-full lg:overflow-y-auto pr-0 lg:pr-1 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent"
         >
 
           {/* Panel: Theory and Core Academic Summary */}
           <div className="hidden lg:flex relative">
-            <div className="bg-slate-900/80 backdrop-blur-xl border-x-0 lg:border border-white/10 p-5 rounded-none lg:rounded-3xl shadow-xl flex flex-col gap-4 min-h-[180px] w-full">
+            <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl flex flex-col gap-4 min-h-[180px] w-full">
               <h4 className="text-xs sm:text-sm font-bold text-slate-200 flex items-center gap-2 border-b border-white/5 pb-2">
                 <BookOpen size={15} className="text-blue-400" /> 
                 {subTab === 'symbol' && 'หัวข้อ: ความลับในสัญลักษณ์พลังงาน'}
@@ -965,7 +963,7 @@ export default function ApplicationsViewer() {
           </div>
 
           {/* Panel: Live interactive Self-Assessment Quiz */}
-          <div className="bg-slate-900/80 backdrop-blur-xl border-x-0 lg:border border-white/10 p-3.5 rounded-none lg:rounded-3xl shadow-xl flex flex-col gap-3">
+          <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl flex flex-col gap-4">
             <div className="flex items-center justify-between border-b border-white/5 pb-2">
               <h4 className="text-xs sm:text-sm font-black text-slate-200 flex items-center gap-2">
                 <HelpCircle size={15} className="text-amber-400" />
