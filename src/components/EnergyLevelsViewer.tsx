@@ -577,7 +577,7 @@ export default function EnergyLevelsViewer({
     <div className="w-full h-full flex flex-col p-0 md:p-3 relative z-10 overflow-hidden md:bg-slate-950/40 md:rounded-3xl">
       
       {/* MOBILE UNIFIED TABS - INTEGRATED HEADER STYLE */}
-      <div className="md:hidden flex flex-col gap-2 p-2 pb-1.5 border-b border-white/5 bg-slate-950/20">
+      <div className="md:hidden flex flex-row items-center justify-between gap-2 p-2 pb-1.5 border-b border-white/5 bg-slate-950/20 z-10 shrink-0">
         <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start shadow-inner overflow-x-auto scrollbar-none max-w-full">
           <button
             onClick={() => setModelType('bohr')}
@@ -607,7 +607,7 @@ export default function EnergyLevelsViewer({
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            ผังพลังงาน
+            ผังระดับพลังงาน
           </button>
           <button
             onClick={() => setModelType('summary')}

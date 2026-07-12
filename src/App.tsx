@@ -542,6 +542,39 @@ export default function App() {
           <section className="w-full sticky lg:relative top-0 lg:top-0 z-30 lg:h-full bg-gradient-to-b from-slate-900 to-slate-950 rounded-3xl border border-white/10 overflow-hidden shadow-2xl flex flex-col shrink-0 transition-all duration-300 h-[380px] sm:h-[480px] lg:flex-1 lg:flex-[1.6]">
             {activeTab === 'orbitals' ? (
               <>
+                {/* Mobile Header for Orbitals View */}
+                <div className="lg:hidden flex flex-row items-center justify-between gap-2 p-2 pb-1.5 border-b border-white/5 bg-slate-950/20 z-30 shrink-0">
+                  <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start shadow-inner">
+                    {['s', 'p', 'd', 'f'].map(type => {
+                      const isSelected = activeType === type;
+                      return (
+                        <button
+                          key={type}
+                          onClick={() => handleTypeChange(type)}
+                          className={`px-4 py-1.5 rounded-lg font-black text-[10px] transition-all duration-150 flex items-center justify-center cursor-pointer ${
+                            isSelected 
+                              ? 'bg-blue-600 text-white shadow-sm' 
+                              : 'text-slate-400 hover:text-slate-200'
+                          }`}
+                        >
+                          {type.toUpperCase()}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <button 
+                    onClick={() => {
+                      initGame('p');
+                      setIsGameOpen(true);
+                    }}
+                    className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-black px-3 py-1.5 rounded-lg shadow-lg shadow-orange-500/20 flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer border border-amber-300/20 text-[10px]"
+                  >
+                    <Gamepad2 size={12} className="shrink-0 mr-1 animate-pulse" />
+                    <span>คำถาม</span>
+                  </button>
+                </div>
+
                 <div className="absolute inset-0 z-0">
                   <OrbitalViewer 
                     orbitals={[{ n: 3, type: activeType, name: `3${activeType}`, activeDegenerateNames: activeSubs }]}
@@ -551,15 +584,15 @@ export default function App() {
                 {/* Depth Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent pointer-events-none z-10" />
 
-                {/* Orbital s/p/d/f buttons in top-left corner */}
-                <div className="absolute top-4 left-4 z-20 bg-slate-950/90 backdrop-blur-md p-1 md:p-1.5 rounded-xl md:rounded-2xl border border-white/10 shadow-lg flex gap-1">
+                {/* Desktop Orbital s/p/d/f buttons in top-left corner */}
+                <div className="hidden lg:flex absolute top-4 left-4 z-20 bg-slate-950/90 backdrop-blur-md p-1.5 rounded-2xl border border-white/10 shadow-lg gap-1">
                   {['s', 'p', 'd', 'f'].map(type => {
                     const isSelected = activeType === type;
                     return (
                       <button
                         key={type}
                         onClick={() => handleTypeChange(type)}
-                        className={`px-3 py-1.5 md:w-9 md:h-9 rounded-lg md:rounded-xl font-black text-[10px] md:text-xs transition-all duration-200 flex items-center justify-center cursor-pointer ${
+                        className={`w-9 h-9 rounded-xl font-black text-xs transition-all duration-200 flex items-center justify-center cursor-pointer ${
                           isSelected 
                             ? 'bg-blue-500 text-white shadow-md shadow-blue-500/25' 
                             : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
@@ -604,19 +637,17 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Game Launcher Button INSIDE the Canvas Frame (as requested: "ปุ่มเล่นเกมส์ท้ายทาให้มาอยู่ในกรอบแสดงผลเหมือนเดิมนะ") */}
-                <div className="absolute top-4 right-4 z-20">
-                  <div className="p-1 md:p-0 rounded-xl bg-slate-950/90 md:bg-transparent backdrop-blur md:backdrop-blur-none border border-white/10 md:border-none shadow-lg md:shadow-none flex items-center justify-center">
+                {/* Desktop Game Launcher Button INSIDE the Canvas Frame */}
+                <div className="hidden lg:block absolute top-4 right-4 z-20">
+                  <div className="flex items-center justify-center">
                     <button 
                       onClick={() => {
                         initGame('p');
                         setIsGameOpen(true);
                       }}
-                      className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-black px-3 py-1.5 md:h-12 md:w-12 rounded-lg md:rounded-2xl shadow-lg shadow-orange-500/10 md:shadow-orange-500/30 flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer border border-amber-300/20 text-[10px] md:text-base"
+                      className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-black h-12 w-12 rounded-2xl shadow-lg shadow-orange-500/30 flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer border border-amber-300/20"
                     >
-                      <Gamepad2 size={12} className="md:hidden shrink-0 mr-1 animate-bounce" />
-                      <Gamepad2 size={20} className="hidden md:block shrink-0 animate-bounce" />
-                      <span className="md:hidden text-[10px] font-black">คำถาม</span>
+                      <Gamepad2 size={20} className="shrink-0 animate-bounce" />
                     </button>
                   </div>
                 </div>

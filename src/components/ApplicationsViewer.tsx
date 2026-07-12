@@ -384,11 +384,64 @@ export default function ApplicationsViewer() {
         {/* ================= LEFT PLAYGROUND PANEL ================= */}
         <section 
           id="app-left-playground" 
-          className="w-full lg:flex-1 h-[420px] lg:h-full bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-y-auto scrollbar-thin scrollbar-thumb-slate-800 flex flex-col shrink-0 shadow-2xl p-4 sm:p-6"
+          className="w-full lg:flex-1 h-[420px] lg:h-full bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-y-auto scrollbar-thin scrollbar-thumb-slate-800 flex flex-col shrink-0 shadow-2xl p-0 sm:p-6"
         >
-          {/* Header with Sub-tabs and Info Button */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-3 mb-3 shrink-0 relative">
-            <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start overflow-x-auto scrollbar-none max-w-[calc(100%-80px)] sm:max-w-full shadow-inner">
+          {/* MOBILE UNIFIED TABS - INTEGRATED HEADER STYLE */}
+          <div className="sm:hidden flex flex-row items-center justify-between gap-2 p-2 pb-1.5 border-b border-white/5 bg-slate-950/20 z-10 shrink-0">
+            <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start overflow-x-auto scrollbar-none max-w-[calc(100%-80px)] shadow-inner">
+              <button
+                id="tab-btn-symbol-mobile"
+                type="button"
+                onClick={() => { setSubTab('symbol'); }}
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                  subTab === 'symbol'
+                    ? 'bg-blue-600 text-white shadow-sm font-black'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                สัญลักษณ์
+              </button>
+              
+              <button
+                id="tab-btn-unpaired-mobile"
+                type="button"
+                onClick={() => { setSubTab('unpaired'); }}
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                  subTab === 'unpaired'
+                    ? 'bg-emerald-600 text-white shadow-sm font-black'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                อิเล็กตรอนเดี่ยว
+              </button>
+              
+              <button
+                id="tab-btn-periodic-mobile"
+                type="button"
+                onClick={() => { setSubTab('periodic'); }}
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                  subTab === 'periodic'
+                    ? 'bg-amber-600 text-white shadow-sm font-black'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                พิกัดธาตุ
+              </button>
+            </div>
+
+            <button 
+              onClick={() => setActiveInfoPopup('combined')} 
+              className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-black px-2.5 py-1.5 rounded-lg text-[10px] transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-sm shadow-blue-500/5"
+              title="คำอธิบาย"
+            >
+              <Info size={12} className="shrink-0" />
+              <span>คำอธิบาย</span>
+            </button>
+          </div>
+
+          {/* Desktop Header with Sub-tabs and Info Button */}
+          <div className="hidden sm:flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-3 mb-3 shrink-0 relative px-6 pt-6">
+            <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start overflow-x-auto scrollbar-none max-w-full shadow-inner">
               <button
                 id="tab-btn-symbol"
                 type="button"
@@ -400,7 +453,6 @@ export default function ApplicationsViewer() {
                 }`}
               >
                 <Zap size={12} className="hidden sm:block" />
-                <span className="whitespace-nowrap sm:hidden">สัญลักษณ์</span>
                 <span className="whitespace-nowrap hidden sm:inline text-xs">ถอดรหัสสัญลักษณ์</span>
               </button>
               
@@ -415,7 +467,6 @@ export default function ApplicationsViewer() {
                 }`}
               >
                 <Layers size={12} className="hidden sm:block" />
-                <span className="whitespace-nowrap sm:hidden">อิเล็กตรอนเดี่ยว</span>
                 <span className="whitespace-nowrap hidden sm:inline text-xs">นับอิเล็กตรอนเดี่ยว</span>
               </button>
               
@@ -430,22 +481,12 @@ export default function ApplicationsViewer() {
                 }`}
               >
                 <LayoutGrid size={12} className="hidden sm:block" />
-                <span className="whitespace-nowrap sm:hidden">พิกัดธาตุ</span>
                 <span className="whitespace-nowrap hidden sm:inline text-xs">ระบุตำแหน่งธาตุ</span>
               </button>
             </div>
-
-            <button 
-              onClick={() => setActiveInfoPopup('combined')} 
-              className="sm:hidden text-blue-400 hover:text-blue-300 font-bold underline underline-offset-2 text-[10px] transition-all duration-150 cursor-pointer absolute top-3 right-0 flex items-center gap-0.5"
-              title="คำอธิบาย"
-            >
-              <Info size={10} />
-              <span>คำอธิบาย</span>
-            </button>
-            
-            {/* Desktop Info button removed as per request */}
           </div>
+
+          <div className="p-4 sm:p-0">
 
           <AnimatePresence mode="wait">
             {/* 1. SYMBOL PLAYGROUND */}
@@ -796,6 +837,7 @@ export default function ApplicationsViewer() {
               </motion.div>
             )}
           </AnimatePresence>
+          </div>
 
         </section>
 

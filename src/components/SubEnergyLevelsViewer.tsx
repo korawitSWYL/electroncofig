@@ -227,9 +227,9 @@ export default function SubEnergyLevelsViewer({ onOpenRulesExplanation }: SubEne
           <div className={`w-full lg:flex-[1] bg-gradient-to-b from-slate-900/40 to-slate-950/40 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-hidden flex flex-col shrink-0 h-[400px] lg:h-full shadow-xl ${
             subViewMode === 'orbital' ? 'flex' : 'hidden lg:flex'
           }`}>
-            <div className="shrink-0 border-b border-white/5 pb-3 flex flex-col gap-3 px-4 sm:px-5 pt-4 sm:pt-5 bg-slate-950/20">
-              {/* Tab Switcher for Mobile/Tablet - Integrated into Header */}
-              <div className="lg:hidden flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start shadow-inner">
+            {/* MOBILE UNIFIED TABS - INTEGRATED HEADER STYLE */}
+            <div className="lg:hidden flex flex-row items-center justify-between gap-2 p-2 pb-1.5 border-b border-white/5 bg-slate-950/20 z-10 shrink-0">
+              <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start shadow-inner">
                 <button
                   type="button"
                   onClick={() => setSubViewMode('orbital')}
@@ -254,6 +254,18 @@ export default function SubEnergyLevelsViewer({ onOpenRulesExplanation }: SubEne
                 </button>
               </div>
 
+              <button 
+                onClick={onOpenRulesExplanation} 
+                className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-black px-2.5 py-1.5 rounded-lg text-[10px] transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-sm shadow-blue-500/5"
+                title="คำอธิบาย"
+              >
+                <Info size={12} className="shrink-0" />
+                <span>คำอธิบาย</span>
+              </button>
+            </div>
+
+            <div className="shrink-0 border-b border-white/5 pb-3 flex flex-col gap-3 px-4 sm:px-5 pt-4 sm:pt-5 lg:bg-slate-950/20">
+              {/* Desktop Header Content (Icons/Title) */}
               <div className="flex flex-row items-center justify-between gap-3">
                 <div>
                   <h2 className="text-xs sm:text-sm font-black text-blue-400 flex items-center flex-wrap gap-1.5">
@@ -264,7 +276,7 @@ export default function SubEnergyLevelsViewer({ onOpenRulesExplanation }: SubEne
                     <button
                       type="button"
                       onClick={onOpenRulesExplanation}
-                      className="text-blue-400 hover:text-blue-300 font-bold underline underline-offset-2 text-[10px] sm:text-xs transition-all duration-150 cursor-pointer ml-1 normal-case inline-flex items-center gap-0.5"
+                      className="hidden lg:inline-flex text-blue-400 hover:text-blue-300 font-bold underline underline-offset-2 text-xs transition-all duration-150 cursor-pointer ml-1 normal-case items-center gap-0.5"
                       title="คลิกเพื่อดูคำอธิบายกฎการเรียงระดับพลังงาน"
                     >
                       <Info size={10} />
@@ -302,9 +314,9 @@ export default function SubEnergyLevelsViewer({ onOpenRulesExplanation }: SubEne
           <div className={`w-full lg:flex-[1.2] bg-gradient-to-b from-slate-900/40 to-slate-950/40 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-hidden flex flex-col shrink-0 h-[400px] lg:h-full shadow-xl ${
             subViewMode === 'bohr' ? 'flex' : 'hidden lg:flex'
           }`}>
-            <div className="shrink-0 border-b border-white/5 pb-3 flex flex-col gap-3 px-4 sm:px-5 pt-4 sm:pt-5 bg-slate-950/20">
-              {/* Tab Switcher for Mobile/Tablet - Integrated into Header */}
-              <div className="lg:hidden flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start shadow-inner">
+            {/* MOBILE UNIFIED TABS - INTEGRATED HEADER STYLE */}
+            <div className="lg:hidden flex flex-row items-center justify-between gap-2 p-2 pb-1.5 border-b border-white/5 bg-slate-950/20 z-10 shrink-0">
+              <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start shadow-inner">
                 <button
                   type="button"
                   onClick={() => setSubViewMode('orbital')}
@@ -329,6 +341,18 @@ export default function SubEnergyLevelsViewer({ onOpenRulesExplanation }: SubEne
                 </button>
               </div>
 
+              <button 
+                onClick={onOpenRulesExplanation} 
+                className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-black px-2.5 py-1.5 rounded-lg text-[10px] transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-sm shadow-blue-500/5"
+                title="คำอธิบาย"
+              >
+                <Info size={12} className="shrink-0" />
+                <span>คำอธิบาย</span>
+              </button>
+            </div>
+
+            <div className="shrink-0 border-b border-white/5 pb-3 flex flex-col gap-3 px-4 sm:px-5 pt-4 sm:pt-5 lg:bg-slate-950/20">
+              {/* Desktop Header Content (Icons/Title) */}
               <div className="flex flex-row items-center justify-between gap-3">
                 <div>
                   <h2 className="text-xs sm:text-sm font-black text-amber-400 flex items-center flex-wrap gap-1.5">
@@ -339,7 +363,7 @@ export default function SubEnergyLevelsViewer({ onOpenRulesExplanation }: SubEne
                     <button
                       type="button"
                       onClick={onOpenRulesExplanation}
-                      className="text-amber-400 hover:text-amber-300 font-bold underline underline-offset-2 text-[10px] sm:text-xs transition-all duration-150 cursor-pointer ml-1 normal-case inline-flex items-center gap-0.5"
+                      className="hidden lg:inline-flex text-amber-400 hover:text-amber-300 font-bold underline underline-offset-2 text-xs transition-all duration-150 cursor-pointer ml-1 normal-case items-center gap-0.5"
                       title="คลิกเพื่อดูคำอธิบายกฎการเรียงระดับพลังงาน"
                     >
                       <Info size={10} />
