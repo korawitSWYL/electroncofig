@@ -227,66 +227,68 @@ export default function SubEnergyLevelsViewer({ onOpenRulesExplanation }: SubEne
           <div className={`w-full lg:flex-[1] bg-gradient-to-b from-slate-900/40 to-slate-950/40 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-hidden flex flex-col shrink-0 h-[400px] lg:h-full shadow-xl ${
             subViewMode === 'orbital' ? 'flex' : 'hidden lg:flex'
           }`}>
-            <div className="shrink-0 border-b border-white/5 pb-3 flex flex-row items-center justify-between gap-3 px-4 sm:px-5 pt-4 sm:pt-5 bg-slate-950/20">
-              <div>
-                <h2 className="text-xs sm:text-sm font-black text-blue-400 flex items-center flex-wrap gap-1.5">
-                  <span className="flex items-center gap-1.5">
-                    <Sparkles size={16} />
-                    โมเดลออร์บิทัล 3 มิติ
-                  </span>
-                  <button
-                    type="button"
-                    onClick={onOpenRulesExplanation}
-                    className="text-blue-400 hover:text-blue-300 font-bold underline underline-offset-2 text-[10px] sm:text-xs transition-all duration-150 cursor-pointer ml-1 normal-case inline-flex items-center gap-0.5"
-                    title="คลิกเพื่อดูคำอธิบายกฎการเรียงระดับพลังงาน"
-                  >
-                    <Info size={10} />
-                    <span>คำอธิบาย</span>
-                  </button>
-                </h2>
-                <p className="text-[10px] text-slate-400 mt-1 leading-relaxed">
-                  จำลองรูปร่าง: <span className="text-white font-bold">{displayedSubshellNames.join(', ')}</span>
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <button 
-                  onClick={handlePlayToggle}
-                  className={`px-2.5 py-1.5 rounded-lg font-black text-[10px] sm:text-xs flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-lg ${
-                    isPlaying 
-                      ? 'bg-rose-500 hover:bg-rose-400 text-white animate-pulse' 
-                      : 'bg-emerald-500 hover:bg-emerald-400 text-white'
+            <div className="shrink-0 border-b border-white/5 pb-3 flex flex-col gap-3 px-4 sm:px-5 pt-4 sm:pt-5 bg-slate-950/20">
+              {/* Tab Switcher for Mobile/Tablet - Integrated into Header */}
+              <div className="lg:hidden flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start shadow-inner">
+                <button
+                  type="button"
+                  onClick={() => setSubViewMode('orbital')}
+                  className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all duration-150 cursor-pointer ${
+                    subViewMode === 'orbital'
+                      ? 'bg-blue-600 text-white shadow-sm font-black'
+                      : 'text-slate-400 hover:text-slate-200'
                   }`}
                 >
-                  {isPlaying ? <Pause size={12} /> : <Play size={12} />}
-                  {isPlaying ? 'หยุด' : 'เล่น'}
+                  โมเดล 3D
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSubViewMode('bohr')}
+                  className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all duration-150 cursor-pointer ${
+                    subViewMode === 'bohr'
+                      ? 'bg-amber-500 text-slate-950 shadow-sm font-black'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  เส้นพลังงาน
                 </button>
               </div>
-            </div>
-            
-            {/* Floating Tab Switcher for Mobile/Tablet */}
-            <div className="absolute top-[76px] left-4 sm:left-5 z-30 lg:hidden flex bg-slate-950/90 backdrop-blur border border-white/10 p-1 rounded-xl shadow-lg">
-              <button
-                type="button"
-                onClick={() => setSubViewMode('orbital')}
-                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all duration-150 cursor-pointer ${
-                  subViewMode === 'orbital'
-                    ? 'bg-blue-600 text-white shadow-sm font-black'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                โมเดล 3D
-              </button>
-              <button
-                type="button"
-                onClick={() => setSubViewMode('bohr')}
-                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all duration-150 cursor-pointer ${
-                  subViewMode === 'bohr'
-                    ? 'bg-amber-500 text-slate-950 shadow-sm font-black'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                เส้นพลังงาน
-              </button>
+
+              <div className="flex flex-row items-center justify-between gap-3">
+                <div>
+                  <h2 className="text-xs sm:text-sm font-black text-blue-400 flex items-center flex-wrap gap-1.5">
+                    <span className="flex items-center gap-1.5">
+                      <Sparkles size={16} />
+                      โมเดลออร์บิทัล 3 มิติ
+                    </span>
+                    <button
+                      type="button"
+                      onClick={onOpenRulesExplanation}
+                      className="text-blue-400 hover:text-blue-300 font-bold underline underline-offset-2 text-[10px] sm:text-xs transition-all duration-150 cursor-pointer ml-1 normal-case inline-flex items-center gap-0.5"
+                      title="คลิกเพื่อดูคำอธิบายกฎการเรียงระดับพลังงาน"
+                    >
+                      <Info size={10} />
+                      <span>คำอธิบาย</span>
+                    </button>
+                  </h2>
+                  <p className="text-[10px] text-slate-400 mt-1 leading-relaxed">
+                    จำลองรูปร่าง: <span className="text-white font-bold">{displayedSubshellNames.join(', ')}</span>
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button 
+                    onClick={handlePlayToggle}
+                    className={`px-2.5 py-1.5 rounded-lg font-black text-[10px] sm:text-xs flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-lg ${
+                      isPlaying 
+                        ? 'bg-rose-500 hover:bg-rose-400 text-white animate-pulse' 
+                        : 'bg-emerald-500 hover:bg-emerald-400 text-white'
+                    }`}
+                  >
+                    {isPlaying ? <Pause size={12} /> : <Play size={12} />}
+                    {isPlaying ? 'หยุด' : 'เล่น'}
+                  </button>
+                </div>
+              </div>
             </div>
 
             <div className="flex-1 relative cursor-grab active:cursor-grabbing w-full h-full">
@@ -300,66 +302,68 @@ export default function SubEnergyLevelsViewer({ onOpenRulesExplanation }: SubEne
           <div className={`w-full lg:flex-[1.2] bg-gradient-to-b from-slate-900/40 to-slate-950/40 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-hidden flex flex-col shrink-0 h-[400px] lg:h-full shadow-xl ${
             subViewMode === 'bohr' ? 'flex' : 'hidden lg:flex'
           }`}>
-            <div className="shrink-0 border-b border-white/5 pb-3 flex flex-row items-center justify-between gap-3 px-4 sm:px-5 pt-4 sm:pt-5 bg-slate-950/20">
-              <div>
-                <h2 className="text-xs sm:text-sm font-black text-amber-400 flex items-center flex-wrap gap-1.5">
-                  <span className="flex items-center gap-1.5">
-                    <Activity size={16} />
-                    เส้นระดับพลังงาน
-                  </span>
-                  <button
-                    type="button"
-                    onClick={onOpenRulesExplanation}
-                    className="text-amber-400 hover:text-amber-300 font-bold underline underline-offset-2 text-[10px] sm:text-xs transition-all duration-150 cursor-pointer ml-1 normal-case inline-flex items-center gap-0.5"
-                    title="คลิกเพื่อดูคำอธิบายกฎการเรียงระดับพลังงาน"
-                  >
-                    <Info size={10} />
-                    <span>คำอธิบาย</span>
-                  </button>
-                </h2>
-                <p className="text-[10px] text-slate-400 mt-1 leading-relaxed">
-                  ลำดับพลังงาน: <span className="text-white font-bold">{displayedSubshellNames.join(', ')}</span>
-                </p>
-              </div>
-              <div className="flex gap-1.5">
-                <button 
-                  onClick={handlePlayToggle}
-                  className={`px-3 py-1.5 rounded-lg font-black text-[10px] sm:text-xs flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-lg ${
-                    isPlaying 
-                      ? 'bg-rose-500 hover:bg-rose-400 text-white animate-pulse' 
-                      : 'bg-emerald-500 hover:bg-emerald-400 text-white'
+            <div className="shrink-0 border-b border-white/5 pb-3 flex flex-col gap-3 px-4 sm:px-5 pt-4 sm:pt-5 bg-slate-950/20">
+              {/* Tab Switcher for Mobile/Tablet - Integrated into Header */}
+              <div className="lg:hidden flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start shadow-inner">
+                <button
+                  type="button"
+                  onClick={() => setSubViewMode('orbital')}
+                  className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all duration-150 cursor-pointer ${
+                    subViewMode === 'orbital'
+                      ? 'bg-blue-600 text-white shadow-sm font-black'
+                      : 'text-slate-400 hover:text-slate-200'
                   }`}
                 >
-                  {isPlaying ? <Pause size={12} /> : <Play size={12} />}
-                  {isPlaying ? 'หยุด' : 'เล่น'}
+                  โมเดล 3D
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSubViewMode('bohr')}
+                  className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all duration-150 cursor-pointer ${
+                    subViewMode === 'bohr'
+                      ? 'bg-amber-500 text-slate-950 shadow-sm font-black'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  เส้นพลังงาน
                 </button>
               </div>
-            </div>
 
-            {/* Floating Tab Switcher for Mobile/Tablet */}
-            <div className="absolute top-[76px] left-4 sm:left-5 z-30 lg:hidden flex bg-slate-950/90 backdrop-blur border border-white/10 p-1 rounded-xl shadow-lg">
-              <button
-                type="button"
-                onClick={() => setSubViewMode('orbital')}
-                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all duration-150 cursor-pointer ${
-                  subViewMode === 'orbital'
-                    ? 'bg-blue-600 text-white shadow-sm font-black'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                โมเดล 3D
-              </button>
-              <button
-                type="button"
-                onClick={() => setSubViewMode('bohr')}
-                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all duration-150 cursor-pointer ${
-                  subViewMode === 'bohr'
-                    ? 'bg-amber-500 text-slate-950 shadow-sm font-black'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                เส้นพลังงาน
-              </button>
+              <div className="flex flex-row items-center justify-between gap-3">
+                <div>
+                  <h2 className="text-xs sm:text-sm font-black text-amber-400 flex items-center flex-wrap gap-1.5">
+                    <span className="flex items-center gap-1.5">
+                      <Activity size={16} />
+                      เส้นระดับพลังงาน
+                    </span>
+                    <button
+                      type="button"
+                      onClick={onOpenRulesExplanation}
+                      className="text-amber-400 hover:text-amber-300 font-bold underline underline-offset-2 text-[10px] sm:text-xs transition-all duration-150 cursor-pointer ml-1 normal-case inline-flex items-center gap-0.5"
+                      title="คลิกเพื่อดูคำอธิบายกฎการเรียงระดับพลังงาน"
+                    >
+                      <Info size={10} />
+                      <span>คำอธิบาย</span>
+                    </button>
+                  </h2>
+                  <p className="text-[10px] text-slate-400 mt-1 leading-relaxed">
+                    ลำดับพลังงาน: <span className="text-white font-bold">{displayedSubshellNames.join(', ')}</span>
+                  </p>
+                </div>
+                <div className="flex gap-1.5">
+                  <button 
+                    onClick={handlePlayToggle}
+                    className={`px-3 py-1.5 rounded-lg font-black text-[10px] sm:text-xs flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-lg ${
+                      isPlaying 
+                        ? 'bg-rose-500 hover:bg-rose-400 text-white animate-pulse' 
+                        : 'bg-emerald-500 hover:bg-emerald-400 text-white'
+                    }`}
+                  >
+                    {isPlaying ? <Pause size={12} /> : <Play size={12} />}
+                    {isPlaying ? 'หยุด' : 'เล่น'}
+                  </button>
+                </div>
+              </div>
             </div>
 
             {/* SVG Bohr Diagram Container with gesture support */}

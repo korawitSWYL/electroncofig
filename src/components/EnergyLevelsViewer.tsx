@@ -574,16 +574,16 @@ export default function EnergyLevelsViewer({
   const activeElement = ELEMENTS_DATA[electronCount] || ELEMENTS_DATA[1];
 
   return (
-    <div className="w-full h-full flex flex-col p-2 sm:p-3 relative z-10 overflow-hidden bg-slate-950/40 rounded-3xl">
+    <div className="w-full h-full flex flex-col p-0 md:p-3 relative z-10 overflow-hidden md:bg-slate-950/40 md:rounded-3xl">
       
-      {/* MOBILE UNIFIED TABS - FIXED AT TOP */}
-      <div className="flex md:hidden absolute top-2.5 inset-x-2.5 flex-row items-center justify-center gap-1.5 z-30">
-        <div className="flex bg-slate-950/90 p-1 rounded-xl border border-white/10 shadow-inner">
+      {/* MOBILE UNIFIED TABS - INTEGRATED HEADER STYLE */}
+      <div className="md:hidden flex flex-col gap-2 p-2 pb-1.5 border-b border-white/5 bg-slate-950/20">
+        <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start shadow-inner overflow-x-auto scrollbar-none max-w-full">
           <button
             onClick={() => setModelType('bohr')}
-            className={`px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-150 cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all duration-150 cursor-pointer whitespace-nowrap ${
               modelType === 'bohr'
-                ? 'bg-blue-600 text-white shadow-sm'
+                ? 'bg-blue-600 text-white shadow-sm font-black'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -591,9 +591,9 @@ export default function EnergyLevelsViewer({
           </button>
           <button
             onClick={() => setModelType('cloud')}
-            className={`px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-150 cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all duration-150 cursor-pointer whitespace-nowrap ${
               modelType === 'cloud'
-                ? 'bg-amber-500 text-slate-950 shadow-sm'
+                ? 'bg-amber-500 text-slate-950 shadow-sm font-black'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -601,31 +601,31 @@ export default function EnergyLevelsViewer({
           </button>
           <button
             onClick={() => setModelType('ladder')}
-            className={`px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-150 cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all duration-150 cursor-pointer whitespace-nowrap ${
               modelType === 'ladder'
-                ? 'bg-emerald-600 text-white shadow-sm'
+                ? 'bg-emerald-600 text-white shadow-sm font-black'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            จัดเรียงe⁻
+            ผังพลังงาน
           </button>
           <button
             onClick={() => setModelType('summary')}
-            className={`px-3 py-1.5 rounded-lg text-[11px] sm:text-xs font-bold transition-all duration-150 cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all duration-150 cursor-pointer whitespace-nowrap ${
               modelType === 'summary'
-                ? 'bg-violet-600 text-white shadow-sm'
+                ? 'bg-violet-600 text-white shadow-sm font-black'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            สรุป
+            สรุปการจัดเรียง
           </button>
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col md:flex-row gap-3 min-h-0 overflow-hidden">
+      <div className="flex-1 flex flex-col md:flex-row gap-2 md:gap-3 min-h-0 overflow-hidden">
         
         {/* 1. Atom Model Display Container */}
-        <div className={`w-full md:w-[38%] lg:w-[35%] flex-1 md:flex-none flex flex-col items-center justify-center bg-slate-900/40 border border-white/5 rounded-2xl p-3 relative md:shrink-0 min-h-[350px] ${
+        <div className={`w-full md:w-[38%] lg:w-[35%] flex-1 md:flex-none flex flex-col items-center justify-start md:justify-center bg-slate-900/40 border-0 md:border border-white/5 rounded-none md:rounded-2xl p-0.5 md:p-3 pt-1 md:pt-3 relative md:shrink-0 min-h-[280px] md:min-h-[350px] ${
           (modelType === 'ladder' || modelType === 'summary') ? 'hidden md:flex' : 'flex'
         }`}>
           
@@ -904,7 +904,7 @@ export default function EnergyLevelsViewer({
         </div>
 
         {/* 2. Suborbitals Energy Levels Ladder Display */}
-        <div className={`flex-1 flex flex-col bg-slate-900/40 border border-white/5 rounded-2xl p-3 sm:p-4 md:p-5 relative overflow-hidden pt-11 md:pt-5 ${
+        <div className={`flex-1 flex flex-col bg-slate-900/40 border-0 md:border border-white/5 rounded-none md:rounded-2xl p-3 sm:p-4 md:p-5 relative overflow-hidden pt-2 md:pt-5 ${
           modelType === 'ladder' ? 'flex' : 'hidden md:flex'
         }`}>
           
@@ -1201,7 +1201,7 @@ export default function EnergyLevelsViewer({
       </div>
 
       {/* 3. Summary Display (Visible on Mobile only when active) */}
-      <div className={`flex-1 flex flex-col bg-slate-900/40 border border-white/5 rounded-2xl p-3 sm:p-4 md:p-5 relative overflow-y-auto pt-11 md:pt-5 ${
+      <div className={`flex-1 flex flex-col bg-slate-900/40 border-0 md:border border-white/5 rounded-none md:rounded-2xl p-3 sm:p-4 md:p-5 relative overflow-y-auto pt-2 md:pt-5 ${
         modelType === 'summary' ? 'flex' : 'hidden'
       }`}>
         <div className="flex flex-col gap-3 h-full">

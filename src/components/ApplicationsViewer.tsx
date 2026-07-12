@@ -13,7 +13,8 @@ import {
   HelpCircle, 
   ArrowRight,
   BookOpen,
-  LayoutGrid
+  LayoutGrid,
+  Zap
 } from 'lucide-react';
 
 // Define elements from Z=1 to Z=36 for the mini periodic table
@@ -386,58 +387,64 @@ export default function ApplicationsViewer() {
           className="w-full lg:flex-1 h-[420px] lg:h-full bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-y-auto scrollbar-thin scrollbar-thumb-slate-800 flex flex-col shrink-0 shadow-2xl p-4 sm:p-6"
         >
           {/* Header with Sub-tabs and Info Button */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-3 mb-3 shrink-0">
-            <div id="app-subtabs-nav" className="flex flex-row p-1 bg-slate-950/85 backdrop-blur border border-white/10 rounded-xl shadow-lg gap-1 overflow-x-auto scrollbar-none flex-1 max-w-[500px]">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-3 mb-3 shrink-0 relative">
+            <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start overflow-x-auto scrollbar-none max-w-[calc(100%-80px)] sm:max-w-full shadow-inner">
               <button
                 id="tab-btn-symbol"
                 type="button"
                 onClick={() => { setSubTab('symbol'); }}
-                className={`flex-1 px-2 py-1.5 sm:py-2 rounded-lg text-[11px] sm:text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 sm:gap-2 ${
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                   subTab === 'symbol'
-                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                    ? 'bg-blue-600 text-white shadow-sm font-black'
+                    : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
-                <Compass size={14} className="hidden sm:block" />
-                <span className="whitespace-nowrap hidden sm:inline">ถอดรหัสสัญลักษณ์</span>
-                <span className="whitespace-nowrap sm:hidden">รหัสสัญลักษณ์</span>
+                <Zap size={12} className="hidden sm:block" />
+                <span className="whitespace-nowrap sm:hidden">สัญลักษณ์</span>
+                <span className="whitespace-nowrap hidden sm:inline text-xs">ถอดรหัสสัญลักษณ์</span>
               </button>
               
               <button
                 id="tab-btn-unpaired"
                 type="button"
                 onClick={() => { setSubTab('unpaired'); }}
-                className={`flex-1 px-2 py-1.5 sm:py-2 rounded-lg text-[11px] sm:text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 sm:gap-2 ${
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                   subTab === 'unpaired'
-                    ? 'bg-gradient-to-r from-teal-500 to-emerald-600 text-slate-950 shadow-md shadow-emerald-500/10'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                    ? 'bg-emerald-600 text-white shadow-sm font-black'
+                    : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
-                <Layers size={14} className="hidden sm:block" />
-                <span className="whitespace-nowrap">นับอิเล็กตรอนเดี่ยว</span>
+                <Layers size={12} className="hidden sm:block" />
+                <span className="whitespace-nowrap sm:hidden">อิเล็กตรอนเดี่ยว</span>
+                <span className="whitespace-nowrap hidden sm:inline text-xs">นับอิเล็กตรอนเดี่ยว</span>
               </button>
               
               <button
                 id="tab-btn-periodic"
                 type="button"
                 onClick={() => { setSubTab('periodic'); }}
-                className={`flex-1 px-2 py-1.5 sm:py-2 rounded-lg text-[11px] sm:text-xs font-black transition-all cursor-pointer flex items-center justify-center gap-1.5 sm:gap-2 ${
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                   subTab === 'periodic'
-                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 shadow-md shadow-amber-500/10'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+                    ? 'bg-amber-600 text-white shadow-sm font-black'
+                    : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
-                <LayoutGrid size={14} className="hidden sm:block" />
-                <span className="whitespace-nowrap">ตำแหน่งธาตุ</span>
+                <LayoutGrid size={12} className="hidden sm:block" />
+                <span className="whitespace-nowrap sm:hidden">พิกัดธาตุ</span>
+                <span className="whitespace-nowrap hidden sm:inline text-xs">ระบุตำแหน่งธาตุ</span>
               </button>
             </div>
 
             <button 
-              onClick={() => setActiveInfoPopup(subTab)} 
-              className="text-slate-300 hover:text-white transition-colors flex items-center justify-center gap-1.5 text-xs font-bold bg-white/5 hover:bg-white/10 rounded-lg px-3 py-2 cursor-pointer w-full sm:w-auto"
+              onClick={() => setActiveInfoPopup('combined')} 
+              className="sm:hidden text-blue-400 hover:text-blue-300 font-bold underline underline-offset-2 text-[10px] transition-all duration-150 cursor-pointer absolute top-3 right-0 flex items-center gap-0.5"
+              title="คำอธิบาย"
             >
-              <Info size={14} /> คำอธิบาย
+              <Info size={10} />
+              <span>คำอธิบาย</span>
             </button>
+            
+            {/* Desktop Info button removed as per request */}
           </div>
 
           <AnimatePresence mode="wait">
@@ -636,12 +643,12 @@ export default function ApplicationsViewer() {
                 </div>
 
                 {/* Main Interactive Orbital Boxes Visualization */}
-                <div className="flex-1 flex flex-col items-center justify-center py-2 w-full">
-                  <span className="text-[10px] font-bold text-slate-500 tracking-widest uppercase mb-2">
+                <div className="flex-1 flex flex-col items-center justify-center py-0 w-full">
+                  <span className="text-[10px] font-bold text-slate-500 tracking-widest uppercase mb-0.5">
                     โครงสร้างห้องวงโคจร (Orbital Diagram)
                   </span>
                   
-                  <div className="flex flex-nowrap overflow-x-auto items-center justify-start sm:justify-center gap-1.5 sm:gap-2 py-2 w-full px-2 scrollbar-thin scrollbar-thumb-slate-700 pb-3">
+                  <div className="flex flex-nowrap overflow-x-auto items-center justify-center gap-1.5 sm:gap-2 py-0 w-full px-2 scrollbar-thin scrollbar-thumb-slate-700 pb-0">
                     {orbitBoxes.map((box, index) => {
                       const hasSpinUp = box.up;
                       const hasSpinDown = box.down;
@@ -784,60 +791,8 @@ export default function ApplicationsViewer() {
                         );
                       });
                     })}
-
-                    {/* Desktop embedded details panel in empty space (Only shown when hovering on desktop) */}
-                    <AnimatePresence>
-                      {hoveredZ && activeElement && (
-                        <motion.div 
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.95 }}
-                          transition={{ duration: 0.15 }}
-                          style={{ gridColumn: '3 / 13', gridRow: '1 / 4' }} 
-                          className="hidden lg:flex flex-col items-stretch justify-center border border-white/10 bg-slate-900/95 backdrop-blur-md rounded-2xl p-4 text-left z-20 m-1 shadow-xl h-full max-h-[145px] pointer-events-none"
-                        >
-                          <div className="flex items-center justify-between border-b border-white/5 pb-1.5">
-                            <h4 className="text-xs sm:text-sm font-black text-white flex items-center gap-1.5">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-                              <span className="text-amber-400 font-black">{activeElement.name}</span>
-                            </h4>
-                            {activeElement.isException && (
-                              <span className="text-[8px] bg-red-500/10 border border-red-500/30 text-red-400 px-1.5 py-0.5 rounded font-black uppercase tracking-wider animate-pulse ml-2 shrink-0">
-                                ข้อยกเว้นพิเศษ
-                              </span>
-                            )}
-                          </div>
-                          
-                          <div className="grid grid-cols-4 gap-2 mt-2">
-                            <div className="flex flex-col bg-slate-950/60 p-1.5 rounded-xl border border-white/5 items-center justify-center text-center">
-                              <span className="text-[7px] text-slate-500 font-black uppercase tracking-wider">เลขอะตอม</span>
-                              <span className="text-slate-300 font-mono font-black text-xs mt-0.5">{activeElement.z}</span>
-                            </div>
-                            <div className="flex flex-col bg-slate-950/60 p-1.5 rounded-xl border border-white/5 items-center justify-center text-center">
-                              <span className="text-[7px] text-slate-500 font-black uppercase tracking-wider">คาบ</span>
-                              <span className="text-indigo-400 font-mono font-black text-xs mt-0.5">{activeElement.period}</span>
-                            </div>
-                            <div className="flex flex-col bg-slate-950/60 p-1.5 rounded-xl border border-white/5 items-center justify-center text-center">
-                              <span className="text-[7px] text-slate-500 font-black uppercase tracking-wider">หมู่</span>
-                              <span className="text-emerald-400 font-mono font-black text-xs mt-0.5 truncate max-w-[50px]" title={activeElement.groupLabel}>{activeElement.groupLabel.split(' ')[0]}</span>
-                            </div>
-                            <div className="flex flex-col bg-slate-950/60 p-1.5 rounded-xl border border-white/5 items-center justify-center text-center">
-                              <span className="text-[7px] text-slate-500 font-black uppercase tracking-wider">บล็อก</span>
-                              <span className="text-amber-400 font-mono font-black text-xs mt-0.5 uppercase">{activeElement.block}</span>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center justify-between bg-slate-950/50 px-2.5 py-1.5 rounded-xl border border-white/5 mt-2">
-                            <span className="text-[8px] text-slate-400 font-bold">การจัดเรียงอิเล็กตรอน:</span>
-                            <span className="text-[10px] text-amber-300 font-mono font-black">{activeElement.config}</span>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-
                   </div>
                 </div>
-
               </motion.div>
             )}
           </AnimatePresence>
@@ -851,67 +806,118 @@ export default function ApplicationsViewer() {
         >
 
           {/* Panel: Theory and Core Academic Summary */}
-          <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl flex flex-col gap-4">
-            <h4 className="text-xs sm:text-sm font-bold text-slate-200 flex items-center gap-2 border-b border-white/5 pb-2">
-              <BookOpen size={15} className="text-blue-400" /> 
-              {subTab === 'symbol' && 'หัวข้อ: ความลับในสัญลักษณ์พลังงาน'}
-              {subTab === 'unpaired' && 'หัวข้อ: ความสปินของอิเล็กตรอนเดี่ยว'}
-              {subTab === 'periodic' && 'หัวข้อ: ถอดพิกัดคาบ-หมู่ ตารางธาตุ'}
-            </h4>
+          <div className="hidden lg:flex relative">
+            <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl flex flex-col gap-4 min-h-[180px] w-full">
+              <h4 className="text-xs sm:text-sm font-bold text-slate-200 flex items-center gap-2 border-b border-white/5 pb-2">
+                <BookOpen size={15} className="text-blue-400" /> 
+                {subTab === 'symbol' && 'หัวข้อ: ความลับในสัญลักษณ์พลังงาน'}
+                {subTab === 'unpaired' && 'หัวข้อ: ความสปินของอิเล็กตรอนเดี่ยว'}
+                {subTab === 'periodic' && 'หัวข้อ: ถอดพิกัดคาบ-หมู่ ตารางธาตุ'}
+              </h4>
 
-            {subTab === 'symbol' && (
-              <div className="text-xs text-slate-300 space-y-2.5 leading-relaxed">
-                <p>
-                  สัญลักษณ์ทางเคมีเช่น <code className="text-blue-400 font-black">2p⁵</code> สามารถแกะเป็นข้อมูลควอนตัมได้ทันที:
-                </p>
-                <ul className="space-y-1.5 list-disc list-inside text-[11px] text-slate-400">
-                  <li>
-                    <strong className="text-slate-300">ตัวเลข (2)</strong>: บอกระดับพลังงานหลัก (n) แสดงถึงขนาดของออร์บิทัล
-                  </li>
-                  <li>
-                    <strong className="text-slate-300">ตัวอักษร (p)</strong>: บอกรูปร่างออร์บิทัล (s, p, d, f)
-                  </li>
-                  <li>
-                    <strong className="text-slate-300">เลขยกกำลัง (⁵)</strong>: จำนวนอิเล็กตรอนที่บรรจุในออร์บิทัลนั้น
-                  </li>
-                </ul>
-              </div>
-            )}
+              {subTab === 'symbol' && (
+                <div className="text-xs text-slate-300 space-y-2.5 leading-relaxed">
+                  <p>
+                    สัญลักษณ์ทางเคมีเช่น <code className="text-blue-400 font-black">2p⁵</code> สามารถแกะเป็นข้อมูลควอนตัมได้ทันที:
+                  </p>
+                  <ul className="space-y-1.5 list-disc list-inside text-[11px] text-slate-400">
+                    <li>
+                      <strong className="text-slate-300">ตัวเลข (2)</strong>: บอกระดับพลังงานหลัก (n) แสดงถึงขนาดของออร์บิทัล
+                    </li>
+                    <li>
+                      <strong className="text-slate-300">ตัวอักษร (p)</strong>: บอกรูปร่างออร์บิทัล (s, p, d, f)
+                    </li>
+                    <li>
+                      <strong className="text-slate-300">เลขยกกำลัง (⁵)</strong>: จำนวนอิเล็กตรอนที่บรรจุในออร์บิทัลนั้น
+                    </li>
+                  </ul>
+                </div>
+              )}
 
-            {subTab === 'unpaired' && (
-              <div className="text-xs text-slate-300 space-y-2.5 leading-relaxed">
-                <p>
-                  <strong className="text-emerald-400">ทำไมจำนวนอิเล็กตรอนเดี่ยวจึงสำคัญ?</strong> เพราะมันสอดคล้องโดยตรงกับ <strong className="text-white">คุณสมบัติแม่เหล็ก</strong> และความสามารถในการทำปฏิกิริยาเคมี!
-                </p>
-                <ul className="space-y-1.5 list-disc list-inside text-[11px] text-slate-400">
-                  <li>
-                    <strong className="text-slate-300">พาราแมกเนติก (Paramagnetic)</strong>: ธาตุที่มีอิเล็กตรอนเดี่ยวเหลืออยู่ จะตอบสนองและถูกดึงดูดโดยแม่เหล็กภายนอก
-                  </li>
-                  <li>
-                    <strong className="text-slate-300">ไดอะแมกเนติก (Diamagnetic)</strong>: ธาตุที่อิเล็กตรอนเข้าคู่กันหมดสมบูรณ์ (ไม่มีอิเล็กตรอนเดี่ยวเลย) จะถูกผลักออกเล็กน้อยโดยแม่เหล็กภายนอก
-                  </li>
-                </ul>
-              </div>
-            )}
+              {subTab === 'unpaired' && (
+                <div className="text-xs text-slate-300 space-y-2.5 leading-relaxed">
+                  <p>
+                    <strong className="text-emerald-400">ทำไมจำนวนอิเล็กตรอนเดี่ยวจึงสำคัญ?</strong> เพราะมันสอดคล้องโดยตรงกับ <strong className="text-white">คุณสมบัติแม่เหล็ก</strong> และความสามารถในการทำปฏิกิริยาเคมี!
+                  </p>
+                  <ul className="space-y-1.5 list-disc list-inside text-[11px] text-slate-400">
+                    <li>
+                      <strong className="text-slate-300">พาราแมกเนติก (Paramagnetic)</strong>: ธาตุที่มีอิเล็กตรอนเดี่ยวเหลืออยู่ จะตอบสนองและถูกดึงดูดโดยแม่เหล็กภายนอก
+                    </li>
+                    <li>
+                      <strong className="text-slate-300">ไดอะแมกเนติก (Diamagnetic)</strong>: ธาตุที่อิเล็กตรอนเข้าคู่กันหมดสมบูรณ์ (ไม่มีอิเล็กตรอนเดี่ยวเลย) จะถูกผลักออกเล็กน้อยโดยแม่เหล็กภายนอก
+                    </li>
+                  </ul>
+                </div>
+              )}
 
-            {subTab === 'periodic' && (
-              <div className="text-xs text-slate-300 space-y-2.5 leading-relaxed">
-                <p>
-                  เมื่อเราจัดเรียงวาเลนซ์อิเล็กตรอนเสร็จสิ้น เราจะสามารถคาดเดาตำแหน่งพิกัดและพฤติกรรมดั่งแผนที่ได้ดังนี้:
-                </p>
-                <ul className="space-y-1.5 list-disc list-inside text-[11px] text-slate-400">
-                  <li>
-                    <strong className="text-slate-300">ค่า n สูงสุด</strong>: ระบุคาบ (Period) ในแนวราบ
-                  </li>
-                  <li>
-                    <strong className="text-slate-300">จำนวนวาเลนซ์อิเล็กตรอน</strong>: ระบุหมู่ (Group) ในแนวดิ่ง
-                  </li>
-                  <li>
-                    <strong className="text-slate-300">ระดับพลังงานย่อยสุดท้าย</strong>: ระบุบล็อก (s, p, d, f) แบ่งแยกสมบัติโลหะ-อโลหะ
-                  </li>
-                </ul>
-              </div>
-            )}
+              {subTab === 'periodic' && (
+                <div className="text-xs text-slate-300 space-y-2.5 leading-relaxed">
+                  <p>
+                    เมื่อเราจัดเรียงวาเลนซ์อิเล็กตรอนเสร็จสิ้น เราจะสามารถคาดเดาตำแหน่งพิกัดและพฤติกรรมดั่งแผนที่ได้ดังนี้:
+                  </p>
+                  <ul className="space-y-1.5 list-disc list-inside text-[11px] text-slate-400">
+                    <li>
+                      <strong className="text-slate-300">ค่า n สูงสุด</strong>: ระบุคาบ (Period) ในแนวราบ
+                    </li>
+                    <li>
+                      <strong className="text-slate-300">จำนวนวาเลนซ์อิเล็กตรอน</strong>: ระบุหมู่ (Group) ในแนวดิ่ง
+                    </li>
+                    <li>
+                      <strong className="text-slate-300">ระดับพลังงานย่อยสุดท้าย</strong>: ระบุบล็อก (s, p, d, f) แบ่งแยกสมบัติโลหะ-อโลหะ
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            {/* Desktop embedded details panel overlaying theory card */}
+            <AnimatePresence>
+              {subTab === 'periodic' && hoveredZ && activeElement && (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.15 }}
+                  className="hidden lg:flex absolute inset-0 z-20 flex-col items-stretch justify-center border border-white/20 bg-slate-900/95 backdrop-blur-md rounded-3xl p-5 text-left shadow-2xl pointer-events-none"
+                >
+                  <div className="flex items-center justify-between border-b border-white/5 pb-2">
+                    <h4 className="text-sm font-black text-white flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                      <span className="text-amber-400 font-black text-base">{activeElement.name}</span>
+                    </h4>
+                    {activeElement.isException && (
+                      <span className="text-[9px] bg-red-500/10 border border-red-500/30 text-red-400 px-2 py-0.5 rounded font-black uppercase tracking-wider animate-pulse shrink-0">
+                        ข้อยกเว้นพิเศษ
+                      </span>
+                    )}
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-2 mt-3">
+                    <div className="flex flex-col bg-slate-950/60 p-2 rounded-xl border border-white/5 items-center justify-center text-center">
+                      <span className="text-[8px] text-slate-500 font-black uppercase tracking-wider">เลขอะตอม</span>
+                      <span className="text-slate-300 font-mono font-black text-sm mt-0.5">{activeElement.z}</span>
+                    </div>
+                    <div className="flex flex-col bg-slate-950/60 p-2 rounded-xl border border-white/5 items-center justify-center text-center">
+                      <span className="text-[8px] text-slate-500 font-black uppercase tracking-wider">คาบ</span>
+                      <span className="text-indigo-400 font-mono font-black text-sm mt-0.5">{activeElement.period}</span>
+                    </div>
+                    <div className="flex flex-col bg-slate-950/60 p-2 rounded-xl border border-white/5 items-center justify-center text-center">
+                      <span className="text-[8px] text-slate-500 font-black uppercase tracking-wider">หมู่</span>
+                      <span className="text-emerald-400 font-mono font-black text-sm mt-0.5 truncate w-full px-1" title={activeElement.groupLabel}>{activeElement.groupLabel.split(' ')[0]}</span>
+                    </div>
+                    <div className="flex flex-col bg-slate-950/60 p-2 rounded-xl border border-white/5 items-center justify-center text-center">
+                      <span className="text-[8px] text-slate-500 font-black uppercase tracking-wider">บล็อก</span>
+                      <span className="text-amber-400 font-mono font-black text-sm mt-0.5 uppercase">{activeElement.block}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between bg-slate-950/50 px-3 py-2 rounded-xl border border-white/5 mt-3">
+                    <span className="text-[9px] text-slate-400 font-bold">การจัดเรียง:</span>
+                    <span className="text-[11px] text-amber-300 font-mono font-black">{activeElement.config}</span>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* Panel: Live interactive Self-Assessment Quiz */}
@@ -1170,42 +1176,45 @@ export default function ApplicationsViewer() {
             >
               <button 
                 onClick={() => setActiveInfoPopup(null)}
-                className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors cursor-pointer p-1"
+                className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors cursor-pointer p-1 z-10"
               >
                 <XCircle size={20} />
               </button>
               
-              {activeInfoPopup === 'symbol' && (
-                <>
-                  <h3 className="text-sm sm:text-base font-bold text-blue-400 flex items-center gap-2 mb-3">
-                    <Sparkles size={18} /> เครื่องมือวิเคราะห์โครงสร้างสัญลักษณ์ทางเคมี
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    สัญลักษณ์การจัดเรียงอิเล็กตรอนช่วยย่อข้อมูลควอนตัมให้เข้าใจง่าย โดยประกอบด้วยระดับพลังงานหลัก (n), รูปร่างออร์บิทัล (l) และจำนวนอิเล็กตรอน ลองคลิกแต่ละส่วนเพื่อดูความหมาย!
-                  </p>
-                </>
-              )}
-              {activeInfoPopup === 'unpaired' && (
-                <>
-                  <h3 className="text-sm sm:text-base font-bold text-emerald-400 flex items-center gap-2 mb-3">
-                    <Layers size={18} /> สังเกตการณ์จัดลูกศรสปินของอิเล็กตรอนเดี่ยว
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    กฎของฮุนด์ระบุว่า การจัดอิเล็กตรอนลงในออร์บิทัลที่มีพลังงานเท่ากัน ให้จัดลงในออร์บิทัลเดี่ยวแบบสปินชี้ขึ้น (↑) ให้ครบทุกห้องก่อน เพื่อให้พลังงานต่ำที่สุด 
-                    จากนั้นหากมีเหลือจึงจัดสปินชี้ลง (↓) เพื่อเข้าคู่! ปรับแต่งออร์บิทัลและจำนวนอิเล็กตรอนเพื่อดูผลลัพธ์
-                  </p>
-                </>
-              )}
-              {activeInfoPopup === 'periodic' && (
-                <>
-                  <h3 className="text-sm sm:text-base font-bold text-amber-400 flex items-center gap-2 mb-3">
-                    <LayoutGrid size={18} /> ตำแหน่งของธาตุในตารางธาตุ
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    ตารางธาตุถูกแบ่งออกตามบล็อกออร์บิทัลตัวสุดท้ายที่ถูกบรรจุ ได้แก่ <strong className="text-pink-400">s-block</strong> (หมู่ 1, 2 และ He), <strong className="text-cyan-400">p-block</strong> (หมู่ 13 - 18) และ <strong className="text-amber-400">d-block</strong> (ธาตุแทรนซิชัน) 
-                    ลองคลิกเลือกธาตุเพื่อค้นหาวิธีระบุตำแหน่งจากรูปแบบการจัดเรียงอิเล็กตรอน!
-                  </p>
-                </>
+              {activeInfoPopup && (
+                <div className="space-y-6 pt-2">
+                  <div>
+                    <h3 className="text-sm font-bold text-blue-400 flex items-center gap-2 mb-2">
+                      <Zap size={18} /> ความลับในสัญลักษณ์พลังงาน
+                    </h3>
+                    <p className="text-[11px] text-slate-300 leading-relaxed mb-2">
+                      สัญลักษณ์เช่น <code className="text-blue-400 font-black">2p⁵</code> คือระดับพลังงานหลัก (n), รูปร่างออร์บิทัล (l) และจำนวนอิเล็กตรอน
+                    </p>
+                    <ul className="space-y-1 text-[10px] text-slate-400 list-disc list-inside">
+                      <li><strong className="text-slate-300">ตัวเลข</strong>: บอกระดับพลังงานหลัก (n)</li>
+                      <li><strong className="text-slate-300">ตัวอักษร</strong>: บอกรูปร่างออร์บิทัล (s, p, d, f)</li>
+                      <li><strong className="text-slate-300">เลขยกกำลัง</strong>: จำนวนอิเล็กตรอน</li>
+                    </ul>
+                  </div>
+
+                  <div className="border-t border-white/5 pt-4">
+                    <h3 className="text-sm font-bold text-emerald-400 flex items-center gap-2 mb-2">
+                      <Layers size={18} /> สปินของอิเล็กตรอนเดี่ยว
+                    </h3>
+                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                      อิเล็กตรอนเดี่ยว (สปินเดี่ยว ↑) สอดคล้องกับคุณสมบัติแม่เหล็ก (พาราแมกเนติก) ส่วนธาตุที่อิเล็กตรอนเข้าคู่หมดจะเป็นไดอะแมกเนติก
+                    </p>
+                  </div>
+
+                  <div className="border-t border-white/5 pt-4">
+                    <h3 className="text-sm font-bold text-amber-400 flex items-center gap-2 mb-2">
+                      <LayoutGrid size={18} /> ถอดพิกัดในตารางธาตุ
+                    </h3>
+                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                      ค่า n สูงสุดระบุคาบ จำนวนวาเลนซ์ระบุหมู่ และระดับพลังงานย่อยสุดท้ายระบุบล็อกออร์บิทัล (s, p, d, f)
+                    </p>
+                  </div>
+                </div>
               )}
             </motion.div>
           </div>
