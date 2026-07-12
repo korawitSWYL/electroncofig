@@ -644,10 +644,10 @@ export default function ApplicationsViewer() {
                   <div className="flex flex-nowrap overflow-x-auto items-center justify-start sm:justify-center gap-1.5 sm:gap-2 py-2 w-full px-2 scrollbar-thin scrollbar-thumb-slate-700 pb-3">
                     {orbitBoxes.map((box, index) => {
                       const isPaired = box.up && box.down;
-                      const subColorCls = isPaired ? 'text-indigo-400' : unpSub === 's' ? 'text-pink-400' : unpSub === 'p' ? 'text-cyan-400' : unpSub === 'd' ? 'text-amber-400' : 'text-purple-400';
-                      const borderColorCls = isPaired ? 'border-indigo-500' : unpSub === 's' ? 'border-pink-500' : unpSub === 'p' ? 'border-cyan-500' : unpSub === 'd' ? 'border-amber-500' : 'border-purple-500';
-                      const bgColorCls = isPaired ? 'bg-indigo-500' : unpSub === 's' ? 'bg-pink-500' : unpSub === 'p' ? 'bg-cyan-500' : unpSub === 'd' ? 'bg-amber-500' : 'bg-purple-500';
-                      const shadowColorCls = isPaired ? 'shadow-indigo-500/20' : unpSub === 's' ? 'shadow-pink-500/20' : unpSub === 'p' ? 'shadow-cyan-500/20' : unpSub === 'd' ? 'shadow-amber-500/20' : 'shadow-purple-500/20';
+                      const subColorCls = isPaired ? 'text-cyan-400' : unpSub === 's' ? 'text-pink-400' : unpSub === 'p' ? 'text-cyan-400' : unpSub === 'd' ? 'text-amber-400' : 'text-purple-400';
+                      const borderColorCls = isPaired ? 'border-cyan-500' : unpSub === 's' ? 'border-pink-500' : unpSub === 'p' ? 'border-cyan-500' : unpSub === 'd' ? 'border-amber-500' : 'border-purple-500';
+                      const bgColorCls = isPaired ? 'bg-cyan-500' : unpSub === 's' ? 'bg-pink-500' : unpSub === 'p' ? 'bg-cyan-500' : unpSub === 'd' ? 'bg-amber-500' : 'bg-purple-500';
+                      const shadowColorCls = isPaired ? 'shadow-cyan-500/20' : unpSub === 's' ? 'shadow-pink-500/20' : unpSub === 'p' ? 'shadow-cyan-500/20' : unpSub === 'd' ? 'shadow-amber-500/20' : 'shadow-purple-500/20';
 
                       return (
                       <div
@@ -706,20 +706,22 @@ export default function ApplicationsViewer() {
                   
                   <div className="border-r border-white/5">
                     <span className="block text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">อิเล็กตรอนจับคู่</span>
-                    <span className={`text-lg sm:text-xl font-black ${unpSub === 's' ? 'text-pink-400' : unpSub === 'p' ? 'text-cyan-400' : unpSub === 'd' ? 'text-amber-400' : 'text-purple-400'} font-mono`}>{pairedCount}</span>
+                    <span className="text-lg sm:text-xl font-black text-cyan-400 font-mono">{pairedCount}</span>
                     <span className="block text-[7px] sm:text-[8px] text-slate-500 mt-0.5">ตัว ({pairedCount / 2} คู่ ↑↓)</span>
                   </div>
 
                   <div>
-                    <span className="block text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">สัญลักษณ์ย่อยเต็ม</span>
+                    <span className="block text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">ลักษณะการจัดเรียง</span>
                     <span className="text-[10px] sm:text-xs font-black text-slate-200 uppercase leading-normal mt-1 block">
                       {unpElectrons === getCapacity(unpSub) ? (
-                        <span className="text-amber-400 font-bold">บรรจุเต็มพอดี</span>
+                        <span className="text-emerald-400 font-bold">บรรจุเต็ม (Full)</span>
+                      ) : unpElectrons === getCapacity(unpSub) / 2 ? (
+                        <span className="text-amber-400 font-bold">บรรจุครึ่ง (Half)</span>
                       ) : (
-                        <span className="text-slate-500 font-bold">บรรจุยังไม่เต็ม</span>
+                        <span className="text-slate-400 font-bold">บรรจุทั่วไป (Partial)</span>
                       )}
                     </span>
-                    <span className="block text-[8px] text-slate-500 mt-0.5">ขีดความสามารถ</span>
+                    <span className="block text-[8px] text-slate-500 mt-0.5">ความเสถียรชั้นย่อย</span>
                   </div>
                 </div>
 
@@ -796,6 +798,56 @@ export default function ApplicationsViewer() {
                         );
                       });
                     })}
+
+                    {/* Desktop embedded details panel in empty space (Only shown when hovering on desktop) */}
+                    <AnimatePresence>
+                      {hoveredZ && activeElement && (
+                        <motion.div 
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.95 }}
+                          transition={{ duration: 0.15 }}
+                          style={{ gridColumn: '3 / 13', gridRow: '1 / 4' }} 
+                          className="hidden lg:flex flex-col items-stretch justify-center border border-white/10 bg-slate-900/95 backdrop-blur-md rounded-2xl p-4 text-left z-20 m-1 shadow-xl h-full max-h-[145px] pointer-events-none"
+                        >
+                          <div className="flex items-center justify-between border-b border-white/5 pb-1.5">
+                            <h4 className="text-xs sm:text-sm font-black text-white flex items-center gap-1.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                              <span className="text-amber-400 font-black">{activeElement.name}</span>
+                            </h4>
+                            {activeElement.isException && (
+                              <span className="text-[8px] bg-red-500/10 border border-red-500/30 text-red-400 px-1.5 py-0.5 rounded font-black uppercase tracking-wider animate-pulse ml-2 shrink-0">
+                                ข้อยกเว้นพิเศษ
+                              </span>
+                            )}
+                          </div>
+                          
+                          <div className="grid grid-cols-4 gap-2 mt-2">
+                            <div className="flex flex-col bg-slate-950/60 p-1.5 rounded-xl border border-white/5 items-center justify-center text-center">
+                              <span className="text-[7px] text-slate-500 font-black uppercase tracking-wider">เลขอะตอม</span>
+                              <span className="text-slate-300 font-mono font-black text-xs mt-0.5">{activeElement.z}</span>
+                            </div>
+                            <div className="flex flex-col bg-slate-950/60 p-1.5 rounded-xl border border-white/5 items-center justify-center text-center">
+                              <span className="text-[7px] text-slate-500 font-black uppercase tracking-wider">คาบ</span>
+                              <span className="text-indigo-400 font-mono font-black text-xs mt-0.5">{activeElement.period}</span>
+                            </div>
+                            <div className="flex flex-col bg-slate-950/60 p-1.5 rounded-xl border border-white/5 items-center justify-center text-center">
+                              <span className="text-[7px] text-slate-500 font-black uppercase tracking-wider">หมู่</span>
+                              <span className="text-emerald-400 font-mono font-black text-xs mt-0.5 truncate max-w-[50px]" title={activeElement.groupLabel}>{activeElement.groupLabel.split(' ')[0]}</span>
+                            </div>
+                            <div className="flex flex-col bg-slate-950/60 p-1.5 rounded-xl border border-white/5 items-center justify-center text-center">
+                              <span className="text-[7px] text-slate-500 font-black uppercase tracking-wider">บล็อก</span>
+                              <span className="text-amber-400 font-mono font-black text-xs mt-0.5 uppercase">{activeElement.block}</span>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center justify-between bg-slate-950/50 px-2.5 py-1.5 rounded-xl border border-white/5 mt-2">
+                            <span className="text-[8px] text-slate-400 font-bold">การจัดเรียงอิเล็กตรอน:</span>
+                            <span className="text-[10px] text-amber-300 font-mono font-black">{activeElement.config}</span>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
 
                   </div>
                 </div>
@@ -1181,7 +1233,7 @@ export default function ApplicationsViewer() {
             initial={{ opacity: 0, y: 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="fixed bottom-6 lg:bottom-10 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-[340px] bg-slate-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-4 pointer-events-none"
+            className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-[340px] bg-slate-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-4 pointer-events-none"
           >
             <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-3">
               <div>
