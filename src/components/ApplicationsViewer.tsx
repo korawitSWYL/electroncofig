@@ -71,6 +71,25 @@ const PERIODIC_ELEMENTS: PeriodicElement[] = [
   { z: 34, symbol: 'Se', name: 'Selenium (ซีลีเนียม)', period: 4, group: 16, block: 'p', config: '[Ar] 4s² 3d¹⁰ 4p⁴', valence: '4s² 4p⁴', groupLabel: 'VIA (หมู่ 16)' },
   { z: 35, symbol: 'Br', name: 'Bromine (โบรมีน)', period: 4, group: 17, block: 'p', config: '[Ar] 4s² 3d¹⁰ 4p⁵', valence: '4s² 4p⁵', groupLabel: 'VIIA (หมู่ 17)' },
   { z: 36, symbol: 'Kr', name: 'Krypton (คริปตอน)', period: 4, group: 18, block: 'p', config: '[Ar] 4s² 3d¹⁰ 4p⁶', valence: '4s² 4p⁶', groupLabel: 'VIIIA (หมู่ 18)' },
+  // Period 5
+  { z: 37, symbol: 'Rb', name: 'Rubidium (รูบิเดียม)', period: 5, group: 1, block: 's', config: '[Kr] 5s¹', valence: '5s¹', groupLabel: 'IA (หมู่ 1)' },
+  { z: 38, symbol: 'Sr', name: 'Strontium (สตรอนเทียม)', period: 5, group: 2, block: 's', config: '[Kr] 5s²', valence: '5s²', groupLabel: 'IIA (หมู่ 2)' },
+  { z: 39, symbol: 'Y', name: 'Yttrium (อิตเทรียม)', period: 5, group: 3, block: 'd', config: '[Kr] 5s² 4d¹', valence: '5s² 4d¹', groupLabel: 'IIIB (หมู่ 3)' },
+  { z: 40, symbol: 'Zr', name: 'Zirconium (เซอร์โคเนียม)', period: 5, group: 4, block: 'd', config: '[Kr] 5s² 4d²', valence: '5s² 4d²', groupLabel: 'IVB (หมู่ 4)' },
+  { z: 41, symbol: 'Nb', name: 'Niobium (ไนโอเบียม)', period: 5, group: 5, block: 'd', config: '[Kr] 5s¹ 4d⁴', valence: '5s¹ 4d⁴', groupLabel: 'VB (หมู่ 5)', isException: true },
+  { z: 42, symbol: 'Mo', name: 'Molybdenum (โมลิบดีนัม)', period: 5, group: 6, block: 'd', config: '[Kr] 5s¹ 4d⁵', valence: '5s¹ 4d⁵', groupLabel: 'VIB (หมู่ 6)', isException: true },
+  { z: 43, symbol: 'Tc', name: 'Technetium (เทกนีเทียม)', period: 5, group: 7, block: 'd', config: '[Kr] 5s² 4d⁵', valence: '5s² 4d⁵', groupLabel: 'VIIB (หมู่ 7)' },
+  { z: 44, symbol: 'Ru', name: 'Ruthenium (รูทีเนียม)', period: 5, group: 8, block: 'd', config: '[Kr] 5s¹ 4d⁷', valence: '5s¹ 4d⁷', groupLabel: 'VIIIB (หมู่ 8)', isException: true },
+  { z: 45, symbol: 'Rh', name: 'Rhodium (โรเดียม)', period: 5, group: 9, block: 'd', config: '[Kr] 5s¹ 4d⁸', valence: '5s¹ 4d⁸', groupLabel: 'VIIIB (หมู่ 9)', isException: true },
+  { z: 46, symbol: 'Pd', name: 'Palladium (แพลเลเดียม)', period: 5, group: 10, block: 'd', config: '[Kr] 4d¹⁰', valence: '4d¹⁰', groupLabel: 'VIIIB (หมู่ 10)', isException: true },
+  { z: 47, symbol: 'Ag', name: 'Silver (เงิน)', period: 5, group: 11, block: 'd', config: '[Kr] 5s¹ 4d¹⁰', valence: '5s¹ 4d¹⁰', groupLabel: 'IB (หมู่ 11)', isException: true },
+  { z: 48, symbol: 'Cd', name: 'Cadmium (แคดเมียม)', period: 5, group: 12, block: 'd', config: '[Kr] 5s² 4d¹⁰', valence: '5s² 4d¹⁰', groupLabel: 'IIB (หมู่ 12)' },
+  { z: 49, symbol: 'In', name: 'Indium (อินเดียม)', period: 5, group: 13, block: 'p', config: '[Kr] 5s² 4d¹⁰ 5p¹', valence: '5s² 5p¹', groupLabel: 'IIIA (หมู่ 13)' },
+  { z: 50, symbol: 'Sn', name: 'Tin (ดีบุก)', period: 5, group: 14, block: 'p', config: '[Kr] 5s² 4d¹⁰ 5p²', valence: '5s² 5p²', groupLabel: 'IVA (หมู่ 14)' },
+  { z: 51, symbol: 'Sb', name: 'Antimony (พลวง)', period: 5, group: 15, block: 'p', config: '[Kr] 5s² 4d¹⁰ 5p³', valence: '5s² 5p³', groupLabel: 'VA (หมู่ 15)' },
+  { z: 52, symbol: 'Te', name: 'Tellurium (เทลลูเรียม)', period: 5, group: 16, block: 'p', config: '[Kr] 5s² 4d¹⁰ 5p⁴', valence: '5s² 5p⁴', groupLabel: 'VIA (หมู่ 16)' },
+  { z: 53, symbol: 'I', name: 'Iodine (ไอโอดีน)', period: 5, group: 17, block: 'p', config: '[Kr] 5s² 4d¹⁰ 5p⁵', valence: '5s² 5p⁵', groupLabel: 'VIIA (หมู่ 17)' },
+  { z: 54, symbol: 'Xe', name: 'Xenon (ซีนอน)', period: 5, group: 18, block: 'p', config: '[Kr] 5s² 4d¹⁰ 5p⁶', valence: '5s² 5p⁶', groupLabel: 'VIIIA (หมู่ 18)' },
 ];
 
 export default function ApplicationsViewer() {
@@ -162,7 +181,10 @@ export default function ApplicationsViewer() {
 
   // --- SUB-TAB 3: PERIODIC TABLE STATES ---
   const [selectedZ, setSelectedZ] = useState<number>(8); // Oxygen by default
-  const activeElement = PERIODIC_ELEMENTS.find(el => el.z === selectedZ) || PERIODIC_ELEMENTS[7];
+  const [hoveredZ, setHoveredZ] = useState<number | null>(null);
+  
+  const activeZ = hoveredZ || selectedZ;
+  const activeElement = PERIODIC_ELEMENTS.find(el => el.z === activeZ) || PERIODIC_ELEMENTS[7];
 
   // --- INTERACTIVE QUIZZES DATA ---
   const [answeredQuizzes, setAnsweredQuizzes] = useState<Set<string>>(new Set());
@@ -584,101 +606,107 @@ export default function ApplicationsViewer() {
                           key={sub}
                           type="button"
                           onClick={() => setUnpSub(sub)}
-                          className={`px-3 py-1 rounded-lg text-[11px] sm:text-xs font-black uppercase transition-all cursor-pointer ${
+                          className={`px-4 py-1 rounded-lg text-sm font-black transition-all cursor-pointer ${
                             unpSub === sub
-                              ? 'bg-emerald-500 text-slate-950 font-black shadow'
-                              : 'text-slate-400 hover:text-slate-200'
+                              ? 'bg-emerald-500 text-slate-950 shadow'
+                              : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
                           }`}
                         >
-                          {sub} ({sub === 's' ? '1' : sub === 'p' ? '3' : sub === 'd' ? '5' : '7'} ออร์บิทัล)
+                          {sub}
                         </button>
                       ))}
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-2">
-                    <div className="flex justify-between items-center text-xs">
-                      <span className="text-slate-400 font-bold">จำนวนอิเล็กตรอนที่เติม:</span>
-                      <span className="text-emerald-400 font-mono font-black">{unpElectrons} / {getCapacity(unpSub)} ตัว</span>
+                  <div className="flex flex-row items-center gap-3">
+                    <span className="text-[11px] font-bold text-slate-400 whitespace-nowrap">จำนวนอิเล็กตรอนที่เติม:</span>
+                    <div className="flex-1 bg-slate-900/50 rounded-xl p-2 border border-white/5 shadow-inner">
+                      <input
+                        type="range"
+                        min={1}
+                        max={getCapacity(unpSub)}
+                        value={unpElectrons}
+                        onChange={(e) => setUnpElectrons(parseInt(e.target.value))}
+                        className={`w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer hover:bg-slate-700 transition-colors block ${unpSub === 's' ? 'accent-pink-500' : unpSub === 'p' ? 'accent-cyan-500' : unpSub === 'd' ? 'accent-amber-500' : 'accent-purple-500'}`}
+                        title="เลื่อนปรับจำนวนอิเล็กตรอน"
+                      />
                     </div>
-                    <input
-                      type="range"
-                      min={1}
-                      max={getCapacity(unpSub)}
-                      value={unpElectrons}
-                      onChange={(e) => setUnpElectrons(parseInt(e.target.value))}
-                      className="w-full h-1.5 bg-slate-850 rounded-lg appearance-none cursor-pointer accent-emerald-500"
-                    />
+                    <span className={`${unpSub === 's' ? 'text-pink-400' : unpSub === 'p' ? 'text-cyan-400' : unpSub === 'd' ? 'text-amber-400' : 'text-purple-400'} font-mono font-black text-xs whitespace-nowrap min-w-[36px] text-right`}>{unpElectrons}/{getCapacity(unpSub)}</span>
                   </div>
                 </div>
 
                 {/* Main Interactive Orbital Boxes Visualization */}
-                <div className="flex-1 flex flex-col items-center justify-center py-2">
+                <div className="flex-1 flex flex-col items-center justify-center py-2 w-full">
                   <span className="text-[10px] font-bold text-slate-500 tracking-widest uppercase mb-2">
                     โครงสร้างห้องวงโคจร (Orbital Diagram)
                   </span>
                   
-                  <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 py-2 w-full px-2">
-                    {orbitBoxes.map((box, index) => (
+                  <div className="flex flex-nowrap overflow-x-auto items-center justify-start sm:justify-center gap-1.5 sm:gap-2 py-2 w-full px-2 scrollbar-thin scrollbar-thumb-slate-700 pb-3">
+                    {orbitBoxes.map((box, index) => {
+                      const isPaired = box.up && box.down;
+                      const subColorCls = isPaired ? 'text-indigo-400' : unpSub === 's' ? 'text-pink-400' : unpSub === 'p' ? 'text-cyan-400' : unpSub === 'd' ? 'text-amber-400' : 'text-purple-400';
+                      const borderColorCls = isPaired ? 'border-indigo-500' : unpSub === 's' ? 'border-pink-500' : unpSub === 'p' ? 'border-cyan-500' : unpSub === 'd' ? 'border-amber-500' : 'border-purple-500';
+                      const bgColorCls = isPaired ? 'bg-indigo-500' : unpSub === 's' ? 'bg-pink-500' : unpSub === 'p' ? 'bg-cyan-500' : unpSub === 'd' ? 'bg-amber-500' : 'bg-purple-500';
+                      const shadowColorCls = isPaired ? 'shadow-indigo-500/20' : unpSub === 's' ? 'shadow-pink-500/20' : unpSub === 'p' ? 'shadow-cyan-500/20' : unpSub === 'd' ? 'shadow-amber-500/20' : 'shadow-purple-500/20';
+
+                      return (
                       <div
                         key={index}
-                        className={`w-12 h-14 rounded-xl border-2 flex flex-row items-center justify-center gap-1 relative transition-all duration-300 ${
+                        className={`w-11 sm:w-14 h-12 sm:h-14 rounded-md sm:rounded-xl border-2 flex flex-row items-center justify-center shrink-0 gap-0.5 relative transition-all duration-300 ${
                           box.up && box.down
-                            ? 'border-indigo-500/40 bg-indigo-500/5 shadow-[0_0_10px_rgba(99,102,241,0.1)]'
+                            ? `${borderColorCls}/60 ${bgColorCls}/10 shadow-[0_0_8px_var(--tw-shadow-color)] ${shadowColorCls}`
                             : box.up
-                            ? 'border-emerald-500 bg-emerald-500/10 shadow-[0_0_10px_rgba(34,197,94,0.15)] scale-[1.03]'
+                            ? `${borderColorCls} ${bgColorCls}/20 shadow-[0_0_12px_var(--tw-shadow-color)] ${shadowColorCls} scale-[1.03]`
                             : 'border-slate-800 bg-slate-950/60'
                         }`}
                       >
                         {/* Orbital Room Label */}
-                        <span className="absolute top-1 text-[7px] sm:text-[8px] font-mono font-bold text-slate-500">
-                          {unpSub} (m={index - Math.floor(orbitBoxes.length / 2)})
+                        <span className="absolute top-0.5 sm:top-1 text-[7px] sm:text-[8px] font-mono font-bold text-slate-500">
+                          {unpSub}
                         </span>
 
                         {/* Electron Arrows inside */}
-                        <div className="flex items-center justify-center gap-0.5 mt-2">
+                        <div className="flex items-center justify-center mt-2.5 sm:mt-3 gap-px">
                           {box.up && (
                             <motion.div 
                               initial={{ scale: 0, y: 10 }}
                               animate={{ scale: 1, y: 0 }}
-                              className="text-emerald-400 flex flex-col items-center"
+                              className={`${subColorCls} flex flex-col items-center`}
                               title="Spin Up"
                             >
-                              <span className="text-lg font-bold leading-none select-none">↑</span>
-                              <span className="text-[5px] sm:text-[6px] font-sans text-emerald-400/60 font-semibold uppercase leading-none mt-0.5">up</span>
+                              <span className="text-base sm:text-lg font-bold leading-none select-none">↑</span>
                             </motion.div>
                           )}
                           {box.down && (
                             <motion.div 
                               initial={{ scale: 0, y: -10 }}
                               animate={{ scale: 1, y: 0 }}
-                              className="text-indigo-400 flex flex-col items-center"
+                              className={`${subColorCls} flex flex-col items-center`}
                               title="Spin Down"
                             >
-                              <span className="text-lg font-bold leading-none select-none">↓</span>
-                              <span className="text-[5px] sm:text-[6px] font-sans text-indigo-400/60 font-semibold uppercase leading-none mt-0.5">dn</span>
+                              <span className="text-base sm:text-lg font-bold leading-none select-none">↓</span>
                             </motion.div>
                           )}
                           {!box.up && !box.down && (
-                            <span className="text-slate-700 text-[10px] font-mono font-light select-none">ว่าง</span>
+                            <span className="text-slate-700 text-[9px] sm:text-[10px] font-mono font-light select-none">ว่าง</span>
                           )}
                         </div>
                       </div>
-                    ))}
+                    )})}
                   </div>
                 </div>
 
                 {/* Calculation breakdown summary */}
                 <div className="grid grid-cols-3 gap-2 bg-slate-950/80 p-3 rounded-2xl border border-white/5 text-center shadow-lg shrink-0">
                   <div className="border-r border-white/5">
-                    <span className="block text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">อิเล็กตรอนเดี่ยว (Unpaired)</span>
-                    <span className="text-lg sm:text-xl font-black text-emerald-400 font-mono animate-pulse">{unpairedCount}</span>
+                    <span className="block text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">อิเล็กตรอนเดี่ยว</span>
+                    <span className={`text-lg sm:text-xl font-black ${unpSub === 's' ? 'text-pink-400' : unpSub === 'p' ? 'text-cyan-400' : unpSub === 'd' ? 'text-amber-400' : 'text-purple-400'} font-mono animate-pulse`}>{unpairedCount}</span>
                     <span className="block text-[7px] sm:text-[8px] text-slate-500 mt-0.5">ตัว (สปินชี้เดี่ยว ↑)</span>
                   </div>
                   
                   <div className="border-r border-white/5">
-                    <span className="block text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">อิเล็กตรอนจับคู่ (Paired)</span>
-                    <span className="text-lg sm:text-xl font-black text-indigo-400 font-mono">{pairedCount}</span>
+                    <span className="block text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">อิเล็กตรอนจับคู่</span>
+                    <span className={`text-lg sm:text-xl font-black ${unpSub === 's' ? 'text-pink-400' : unpSub === 'p' ? 'text-cyan-400' : unpSub === 'd' ? 'text-amber-400' : 'text-purple-400'} font-mono`}>{pairedCount}</span>
                     <span className="block text-[7px] sm:text-[8px] text-slate-500 mt-0.5">ตัว ({pairedCount / 2} คู่ ↑↓)</span>
                   </div>
 
@@ -720,7 +748,7 @@ export default function ApplicationsViewer() {
                   <div className="grid gap-1 min-w-[500px] lg:min-w-[700px] select-none p-2 lg:p-4 bg-slate-950/40 rounded-2xl border border-white/5 mx-auto w-full" style={{ gridTemplateColumns: 'repeat(18, minmax(24px, 1fr))' }}>
                     
                     {/* Render Periodic Grid Cells manually according to coordinates */}
-                    {Array.from({ length: 4 }).map((_, rIdx) => {
+                    {Array.from({ length: 5 }).map((_, rIdx) => {
                       const currentPeriod = rIdx + 1;
                       
                       return Array.from({ length: 18 }).map((_, cIdx) => {
@@ -736,7 +764,7 @@ export default function ApplicationsViewer() {
                           return <div key={`empty-${currentPeriod}-${currentGroup}`} className="aspect-square lg:aspect-[4/5]" />;
                         }
 
-                        const isSelected = element.z === selectedZ;
+                        const isSelected = element.z === activeZ;
                         const blockColors = 
                           element.block === 's' ? 'bg-pink-500/10 hover:bg-pink-500/25 border-pink-500/30 text-pink-300' :
                           element.block === 'p' ? 'bg-cyan-500/10 hover:bg-cyan-500/25 border-cyan-500/30 text-cyan-300' :
@@ -754,6 +782,8 @@ export default function ApplicationsViewer() {
                             key={element.z}
                             type="button"
                             onClick={() => setSelectedZ(element.z)}
+                            onMouseEnter={() => setHoveredZ(element.z)}
+                            onMouseLeave={() => setHoveredZ(null)}
                             className={`aspect-square lg:aspect-[4/5] rounded-md border flex flex-col items-center justify-center cursor-pointer transition-all ${blockColors} ${selectedBorder}`}
                           >
                             <span className="text-[7px] lg:text-[9px] leading-none text-slate-400 font-mono absolute -translate-y-2 sm:-translate-y-3 lg:-translate-y-4">
@@ -781,68 +811,6 @@ export default function ApplicationsViewer() {
           id="app-right-sidebar" 
           className="w-full lg:w-96 flex flex-col gap-4 shrink-0 lg:h-full lg:overflow-y-auto pr-0 lg:pr-1 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent"
         >
-          {/* Element Details Card */}
-          {activeElement && (
-            <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl flex flex-col gap-4 relative overflow-hidden shrink-0">
-              <div className="flex items-center justify-between border-b border-white/5 pb-3">
-                <div>
-                  <h4 className="text-sm font-black text-white flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-                    ธาตุที่เลือก: <span className="text-amber-400 font-black">{activeElement.name}</span>
-                  </h4>
-                  <p className="text-[10px] text-slate-400 font-mono mt-1">
-                    เลขอะตอม Z = {activeElement.z} | จัดเรียง: {activeElement.config}
-                  </p>
-                </div>
-                {activeElement.isException && (
-                  <span className="text-[9px] bg-red-500/10 border border-red-500/30 text-red-400 px-2 py-0.5 rounded font-black uppercase tracking-wider animate-pulse ml-2 shrink-0">
-                    ข้อยกเว้นพิเศษ
-                  </span>
-                )}
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <div className="bg-slate-950/60 p-3 rounded-xl border border-white/5 flex items-center gap-3">
-                  <div className="text-xl font-black text-indigo-400 font-mono w-[72px] text-center shrink-0">
-                    {activeElement.period}
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider block mb-0.5">1. สังเกต n สูงสุด</span>
-                    <span className="text-[11px] text-slate-300 leading-tight">
-                      คาบสูงสุดคือ <strong>คาบที่ {activeElement.period}</strong>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="bg-slate-950/60 p-3 rounded-xl border border-white/5 flex items-center gap-3">
-                  <div className="text-lg font-black text-emerald-400 font-mono w-[72px] text-center shrink-0">
-                    {activeElement.valence}
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider block mb-0.5">2. เช็กตัวลงท้าย</span>
-                    <span className="text-[11px] text-slate-300 leading-tight">
-                      ระดับพลังงานย่อยสุดท้ายบอกบล็อกและวาเลนซ์
-                    </span>
-                  </div>
-                </div>
-
-                <div className="bg-slate-950/60 p-3 rounded-xl border border-white/5 flex items-center gap-3">
-                  <div className="text-sm font-black text-amber-400 font-mono w-[72px] text-center shrink-0 flex flex-col justify-center items-center leading-tight">
-                    <span>{activeElement.groupLabel.split(' ')[0]}</span>
-                    <span className="text-[9px] text-amber-400/80 mt-0.5 font-sans">
-                      {activeElement.groupLabel.split(' ').slice(1).join(' ')}
-                    </span>
-                  </div>
-                  <div className="flex-1">
-                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider block mb-0.5">3. สรุปพิกัดหมู่ธาตุ</span>
-                    <span className="text-[11px] text-slate-300 leading-tight">
-                      อยู่บล็อก <strong>"{activeElement.block}"</strong>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* Panel: Theory and Core Academic Summary */}
           <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl flex flex-col gap-4">
@@ -1203,6 +1171,55 @@ export default function ApplicationsViewer() {
               )}
             </motion.div>
           </div>
+        )}
+      </AnimatePresence>
+
+      {/* Floating Popup for Element Details (Periodic Table Tab) */}
+      <AnimatePresence>
+        {subTab === 'periodic' && hoveredZ && activeElement && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            className="fixed bottom-6 lg:bottom-10 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-[340px] bg-slate-900/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-4 pointer-events-none"
+          >
+            <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-3">
+              <div>
+                <h4 className="text-sm font-black text-white flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                  <span className="text-amber-400">{activeElement.name}</span>
+                </h4>
+                <p className="text-[10px] text-slate-400 font-mono mt-0.5">
+                  Z = {activeElement.z} | {activeElement.config}
+                </p>
+              </div>
+              {activeElement.isException && (
+                <span className="text-[9px] bg-red-500/10 border border-red-500/30 text-red-400 px-2 py-0.5 rounded font-black uppercase tracking-wider animate-pulse ml-2 shrink-0">
+                  ข้อยกเว้นพิเศษ
+                </span>
+              )}
+            </div>
+            
+            <div className="flex justify-between items-center text-[10px]">
+              <div className="flex flex-col items-center w-1/3">
+                <span className="text-slate-400 font-bold mb-1">คาบ</span>
+                <span className="text-indigo-400 font-mono font-black text-lg leading-none">{activeElement.period}</span>
+              </div>
+              <div className="w-px h-8 bg-white/5" />
+              <div className="flex flex-col items-center w-1/3 text-center">
+                <span className="text-slate-400 font-bold mb-1">หมู่</span>
+                <div className="flex flex-col items-center justify-center leading-none">
+                  <span className="text-emerald-400 font-mono font-black text-base">{activeElement.groupLabel.split(' ')[0]}</span>
+                  <span className="text-[8px] text-emerald-400/80 mt-0.5 font-sans">{activeElement.groupLabel.split(' ').slice(1).join(' ')}</span>
+                </div>
+              </div>
+              <div className="w-px h-8 bg-white/5" />
+              <div className="flex flex-col items-center w-1/3 text-center">
+                <span className="text-slate-400 font-bold mb-1">บล็อก</span>
+                <span className="text-amber-400 font-mono font-black text-lg uppercase leading-none">{activeElement.block}</span>
+              </div>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
 
