@@ -531,7 +531,7 @@ export default function App() {
       </nav>
 
       {/* 2. MAIN LEARNING ENVIRONMENT DISPLAY */}
-      <main className="flex-1 w-full max-w-[98rem] xl:max-w-[104rem] mx-auto p-2 sm:p-3 md:p-4 lg:px-5 xl:px-6 flex flex-col lg:flex-row gap-3 md:gap-4 min-h-0 overflow-y-auto lg:overflow-hidden relative">
+      <main className="flex-1 w-full max-w-[98rem] xl:max-w-[104rem] mx-auto p-2 sm:p-3 md:p-4 lg:px-5 xl:px-6 flex flex-col lg:flex-row gap-2 md:gap-4 min-h-0 overflow-y-auto lg:overflow-hidden relative">
         
         {/* Left Side: Gorgeous 3D Probability Cloud Canvas / Energy Levels Bohr Model */}
         {activeTab === 'subshells' ? (
@@ -539,21 +539,21 @@ export default function App() {
         ) : activeTab === 'applications' ? (
           <ApplicationsViewer />
         ) : (
-          <section className="w-full sticky lg:relative top-0 lg:top-0 z-30 lg:h-full bg-gradient-to-b from-slate-900 to-slate-950 rounded-3xl border border-white/10 overflow-hidden shadow-2xl flex flex-col shrink-0 transition-all duration-300 h-[380px] sm:h-[480px] lg:flex-1 lg:flex-[1.6]">
+          <section className="w-full sticky lg:relative top-0 lg:top-0 z-30 lg:h-full bg-gradient-to-b from-slate-900 to-slate-950 rounded-none lg:rounded-3xl border-0 lg:border border-white/10 overflow-hidden shadow-2xl flex flex-col shrink-0 transition-all duration-300 h-[380px] sm:h-[480px] lg:flex-1 lg:flex-[1.6]">
             {activeTab === 'orbitals' ? (
               <>
                 {/* Mobile Header for Orbitals View */}
-                <div className="lg:hidden flex flex-row items-center justify-between gap-2 p-2 pb-1.5 border-b border-white/5 bg-slate-950/20 z-10 shrink-0">
-                  <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start shadow-inner overflow-x-auto scrollbar-none max-w-[calc(100%-100px)]">
+                <div className="lg:hidden flex flex-row items-center justify-between gap-2 p-2 pb-1.5 border-b border-white/5 bg-slate-950/20 z-30 shrink-0">
+                  <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start shadow-inner">
                     {['s', 'p', 'd', 'f'].map(type => {
                       const isSelected = activeType === type;
                       return (
                         <button
                           key={type}
                           onClick={() => handleTypeChange(type)}
-                          className={`px-4 py-1.5 rounded-lg font-black text-[10px] transition-all duration-150 flex items-center justify-center cursor-pointer ${
+                          className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all duration-150 flex items-center justify-center cursor-pointer ${
                             isSelected 
-                              ? 'bg-blue-600 text-white shadow-sm' 
+                              ? 'bg-blue-600 text-white shadow-sm font-black' 
                               : 'text-slate-400 hover:text-slate-200'
                           }`}
                         >
@@ -563,16 +563,18 @@ export default function App() {
                     })}
                   </div>
 
-                  <button 
-                    onClick={() => {
-                      initGame('p');
-                      setIsGameOpen(true);
-                    }}
-                    className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-black px-3 py-1.5 rounded-lg shadow-lg shadow-orange-500/20 flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer border border-amber-300/20 text-[10px]"
-                  >
-                    <Gamepad2 size={12} className="shrink-0 mr-1 animate-pulse" />
-                    <span>คำถาม</span>
-                  </button>
+                  <div className="p-0.5">
+                    <button 
+                      onClick={() => {
+                        initGame('p');
+                        setIsGameOpen(true);
+                      }}
+                      className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-black px-2.5 py-1.5 rounded-lg shadow-lg shadow-orange-500/20 flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer border border-amber-300/20 text-[10px]"
+                    >
+                      <Gamepad2 size={12} className="shrink-0 mr-1 animate-pulse" />
+                      <span>คำถาม</span>
+                    </button>
+                  </div>
                 </div>
 
                 <div className="absolute inset-0 z-0">
@@ -688,10 +690,10 @@ export default function App() {
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex flex-col gap-4"
+              className="flex flex-col gap-2 md:gap-4"
             >
               {/* Hund's Rule filling demo */}
-              <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-5 rounded-3xl shadow-xl shrink-0">
+              <div className="bg-slate-900/80 backdrop-blur-xl border-x-0 lg:border border-white/10 p-5 rounded-none lg:rounded-3xl shadow-xl shrink-0">
                 <h2 className="text-xs sm:text-sm font-bold text-slate-300 mb-3 flex items-center justify-between gap-2">
                   <span className="flex items-center gap-2">
                     <Layers size={15} className="text-blue-400 shrink-0" />
@@ -810,10 +812,10 @@ export default function App() {
             <motion.div 
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex flex-col gap-2.5"
+              className="flex flex-col gap-2 md:gap-2.5"
             >
               {/* 1. Interactive Electron Arranger Control Card */}
-              <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 p-3.5 rounded-2xl shadow-lg shrink-0">
+              <div className="bg-slate-900/80 backdrop-blur-xl border-x-0 lg:border border-white/10 p-3.5 rounded-none lg:rounded-2xl shadow-lg shrink-0">
                 <h2 className="text-xs font-black text-amber-400 mb-2 flex items-center gap-1.5 uppercase tracking-wider">
                   <Sparkles size={14} />
                   <span>ระบุเลขอะตอมเพื่อจัดเรียงอิเล็กตรอน</span>
