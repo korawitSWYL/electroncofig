@@ -384,11 +384,11 @@ export default function ApplicationsViewer() {
         {/* ================= LEFT PLAYGROUND PANEL ================= */}
         <section 
           id="app-left-playground" 
-          className="w-full lg:flex-1 h-[420px] lg:h-full bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-y-auto scrollbar-thin scrollbar-thumb-slate-800 flex flex-col shrink-0 shadow-2xl p-0 sm:p-6"
+          className="w-full lg:flex-1 h-[420px] lg:h-full bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-3xl relative overflow-y-auto scrollbar-thin scrollbar-thumb-slate-800 flex flex-col shrink-0 shadow-2xl p-0 lg:p-6"
         >
           {/* MOBILE UNIFIED TABS - INTEGRATED HEADER STYLE */}
-          <div className="sm:hidden flex flex-row items-center justify-between gap-2 p-2 pb-1.5 border-b border-white/5 bg-slate-950/20 z-10 shrink-0">
-            <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start overflow-x-auto scrollbar-none max-w-full shadow-inner">
+          <div className="lg:hidden flex flex-row items-center justify-between gap-2 p-2 pb-1.5 border-b border-white/5 bg-slate-950/20 z-10 shrink-0">
+            <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start overflow-x-auto scrollbar-none max-w-[calc(100%-100px)] shadow-inner">
               <button
                 id="tab-btn-symbol-mobile"
                 type="button"
@@ -429,20 +429,18 @@ export default function ApplicationsViewer() {
               </button>
             </div>
 
-            <div className="p-0.5">
-              <button 
-                onClick={() => setActiveInfoPopup('combined')} 
-                className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-black px-2.5 py-1.5 rounded-lg text-[10px] transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-sm shadow-blue-500/5"
-                title="คำอธิบาย"
-              >
-                <Info size={12} className="shrink-0" />
-                <span>คำอธิบาย</span>
-              </button>
-            </div>
+            <button 
+              onClick={() => setActiveInfoPopup('combined')} 
+              className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-black px-2.5 py-1.5 rounded-lg text-[10px] transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-sm shadow-blue-500/5"
+              title="คำอธิบาย"
+            >
+              <Info size={12} className="shrink-0" />
+              <span>คำอธิบาย</span>
+            </button>
           </div>
 
           {/* Desktop Header with Sub-tabs and Info Button */}
-          <div className="hidden sm:flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-3 mb-3 shrink-0 relative px-6 pt-6">
+          <div className="hidden lg:flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-white/5 pb-3 mb-3 shrink-0 relative px-6 pt-6">
             <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start overflow-x-auto scrollbar-none max-w-full shadow-inner">
               <button
                 id="tab-btn-symbol"
@@ -488,7 +486,7 @@ export default function ApplicationsViewer() {
             </div>
           </div>
 
-          <div className="p-4 sm:p-0">
+          <div className="p-4 lg:p-0">
 
           <AnimatePresence mode="wait">
             {/* 1. SYMBOL PLAYGROUND */}
