@@ -254,14 +254,16 @@ export default function SubEnergyLevelsViewer({ onOpenRulesExplanation }: SubEne
                 </button>
               </div>
 
-              <button 
-                onClick={onOpenRulesExplanation} 
-                className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-black px-2.5 py-1.5 rounded-lg text-[10px] transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-sm shadow-blue-500/5"
-                title="คำอธิบาย"
-              >
-                <Info size={12} className="shrink-0" />
-                <span>คำอธิบาย</span>
-              </button>
+              <div className="p-0.5">
+                <button 
+                  onClick={onOpenRulesExplanation} 
+                  className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-black px-2.5 py-1.5 rounded-lg text-[10px] transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-sm shadow-blue-500/5"
+                  title="คำอธิบาย"
+                >
+                  <Info size={12} className="shrink-0" />
+                  <span>คำอธิบาย</span>
+                </button>
+              </div>
             </div>
 
             <div className="shrink-0 border-b border-white/5 pb-3 flex flex-col gap-3 px-4 sm:px-5 pt-4 sm:pt-5 lg:bg-slate-950/20">
@@ -341,14 +343,16 @@ export default function SubEnergyLevelsViewer({ onOpenRulesExplanation }: SubEne
                 </button>
               </div>
 
-              <button 
-                onClick={onOpenRulesExplanation} 
-                className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-black px-2.5 py-1.5 rounded-lg text-[10px] transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-sm shadow-blue-500/5"
-                title="คำอธิบาย"
-              >
-                <Info size={12} className="shrink-0" />
-                <span>คำอธิบาย</span>
-              </button>
+              <div className="p-0.5">
+                <button 
+                  onClick={onOpenRulesExplanation} 
+                  className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-black px-2.5 py-1.5 rounded-lg text-[10px] transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-sm shadow-blue-500/5"
+                  title="คำอธิบาย"
+                >
+                  <Info size={12} className="shrink-0" />
+                  <span>คำอธิบาย</span>
+                </button>
+              </div>
             </div>
 
             <div className="shrink-0 border-b border-white/5 pb-3 flex flex-col gap-3 px-4 sm:px-5 pt-4 sm:pt-5 lg:bg-slate-950/20">

@@ -388,7 +388,7 @@ export default function ApplicationsViewer() {
         >
           {/* MOBILE UNIFIED TABS - INTEGRATED HEADER STYLE */}
           <div className="sm:hidden flex flex-row items-center justify-between gap-2 p-2 pb-1.5 border-b border-white/5 bg-slate-950/20 z-10 shrink-0">
-            <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start overflow-x-auto scrollbar-none max-w-[calc(100%-80px)] shadow-inner">
+            <div className="flex bg-slate-950/60 p-0.5 rounded-xl border border-white/10 self-start overflow-x-auto scrollbar-none max-w-full shadow-inner">
               <button
                 id="tab-btn-symbol-mobile"
                 type="button"
@@ -429,14 +429,16 @@ export default function ApplicationsViewer() {
               </button>
             </div>
 
-            <button 
-              onClick={() => setActiveInfoPopup('combined')} 
-              className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-black px-2.5 py-1.5 rounded-lg text-[10px] transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-sm shadow-blue-500/5"
-              title="คำอธิบาย"
-            >
-              <Info size={12} className="shrink-0" />
-              <span>คำอธิบาย</span>
-            </button>
+            <div className="p-0.5">
+              <button 
+                onClick={() => setActiveInfoPopup('combined')} 
+                className="bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-black px-2.5 py-1.5 rounded-lg text-[10px] transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:scale-95 shadow-sm shadow-blue-500/5"
+                title="คำอธิบาย"
+              >
+                <Info size={12} className="shrink-0" />
+                <span>คำอธิบาย</span>
+              </button>
+            </div>
           </div>
 
           {/* Desktop Header with Sub-tabs and Info Button */}

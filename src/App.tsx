@@ -551,9 +551,9 @@ export default function App() {
                         <button
                           key={type}
                           onClick={() => handleTypeChange(type)}
-                          className={`px-4 py-1.5 rounded-lg font-black text-[10px] transition-all duration-150 flex items-center justify-center cursor-pointer ${
+                          className={`px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all duration-150 flex items-center justify-center cursor-pointer ${
                             isSelected 
-                              ? 'bg-blue-600 text-white shadow-sm' 
+                              ? 'bg-blue-600 text-white shadow-sm font-black' 
                               : 'text-slate-400 hover:text-slate-200'
                           }`}
                         >
@@ -563,16 +563,18 @@ export default function App() {
                     })}
                   </div>
 
-                  <button 
-                    onClick={() => {
-                      initGame('p');
-                      setIsGameOpen(true);
-                    }}
-                    className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-black px-3 py-1.5 rounded-lg shadow-lg shadow-orange-500/20 flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer border border-amber-300/20 text-[10px]"
-                  >
-                    <Gamepad2 size={12} className="shrink-0 mr-1 animate-pulse" />
-                    <span>คำถาม</span>
-                  </button>
+                  <div className="p-0.5">
+                    <button 
+                      onClick={() => {
+                        initGame('p');
+                        setIsGameOpen(true);
+                      }}
+                      className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 font-black px-2.5 py-1.5 rounded-lg shadow-lg shadow-orange-500/20 flex items-center justify-center transition-all duration-200 active:scale-95 cursor-pointer border border-amber-300/20 text-[10px]"
+                    >
+                      <Gamepad2 size={12} className="shrink-0 mr-1 animate-pulse" />
+                      <span>คำถาม</span>
+                    </button>
+                  </div>
                 </div>
 
                 <div className="absolute inset-0 z-0">
